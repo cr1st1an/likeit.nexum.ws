@@ -1,0 +1,193 @@
+2013/02/05 02:30:03 [error] 23261#0: *1 directory index of "/srv/vhosts/likeit.nexum.ws/http/" is forbidden, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", host: "likeit.nexum.ws"
+2013/02/05 02:30:04 [error] 23261#0: *2 open() "/srv/vhosts/likeit.nexum.ws/http/favicon.ico" failed (2: No such file or directory), client: 174.127.225.187, server: likeit.nexum.ws, request: "GET /favicon.ico HTTP/1.1", host: "likeit.nexum.ws", referrer: "http://likeit.nexum.ws/"
+2013/02/05 02:30:07 [error] 23261#0: *1 directory index of "/srv/vhosts/likeit.nexum.ws/http/" is forbidden, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", host: "likeit.nexum.ws"
+2013/02/05 02:31:26 [error] 23261#0: *3 directory index of "/srv/vhosts/likeit.nexum.ws/http/" is forbidden, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", host: "likeit.nexum.ws"
+2013/02/05 02:31:27 [error] 23261#0: *3 directory index of "/srv/vhosts/likeit.nexum.ws/http/" is forbidden, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", host: "likeit.nexum.ws"
+2013/02/05 02:32:56 [error] 23261#0: *4 directory index of "/srv/vhosts/likeit.nexum.ws/http/" is forbidden, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", host: "likeit.nexum.ws"
+2013/02/05 02:32:57 [error] 23261#0: *4 directory index of "/srv/vhosts/likeit.nexum.ws/http/" is forbidden, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", host: "likeit.nexum.ws"
+2013/02/05 02:33:19 [error] 23261#0: *4 directory index of "/srv/vhosts/likeit.nexum.ws/http/" is forbidden, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", host: "likeit.nexum.ws"
+2013/02/05 02:39:19 [error] 23543#0: *4 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(9): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET /index.php HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:39:48 [error] 23543#0: *11 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(10): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET /index.php HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:39:49 [error] 23543#0: *11 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(10): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET /index.php HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:39:55 [error] 23543#0: *11 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(9): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET /index.php HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:41:09 [error] 23543#0: *15 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(9): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET /index.php HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:41:11 [error] 23543#0: *17 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(9): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET /index.php HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:41:18 [error] 23543#0: *19 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(9): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET /index.php HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:41:29 [error] 23543#0: *21 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(11): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET /index.php HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:45:55 [error] 23543#0: *28 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:45:56 [error] 23543#0: *28 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:51:24 [error] 23543#0: *31 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:54:45 [error] 23543#0: *33 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:55:49 [error] 23543#0: *35 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:56:01 [error] 23663#0: *1 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:56:01 [error] 23663#0: *1 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:56:02 [error] 23663#0: *1 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 02:57:01 [error] 23663#0: *5 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 03:01:18 [error] 23676#0: *1 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 03:01:19 [error] 23676#0: *1 FastCGI sent in stderr: "PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://unix:/var/run/php-fastcgi/php-fastcgi.socket:", host: "likeit.nexum.ws"
+2013/02/05 03:09:25 [error] 23726#0: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws"
+2013/02/05 03:09:25 [error] 23726#0: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws"
+2013/02/05 03:12:41 [error] 23726#0: *4 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws"
+2013/02/05 03:12:42 [error] 23726#0: *4 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws"
+2013/02/05 03:13:38 [error] 23726#0: *4 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws"
+2013/02/05 03:13:58 [error] 23726#0: *4 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws"
+2013/02/05 03:15:34 [error] 23853#0: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws"
+2013/02/05 03:21:25 [error] 23893#0: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws"
+2013/02/05 03:21:26 [error] 23893#0: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws"
+2013/02/05 03:22:35 [error] 23905#0: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  include(/srv/vhosts/zend/Zend/Loader/AutoloaderFactory.php): failed to open stream: No such file or directory in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 38
+PHP message: PHP Warning:  include(): Failed opening '/srv/vhosts/zend/Zend/Loader/AutoloaderFactory.php' for inclusion (include_path='.:/usr/share/php:/usr/share/pear') in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 38
+PHP message: PHP Fatal error:  Class 'Zend\Loader\AutoloaderFactory' not found in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 39" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws"
+2013/02/05 03:23:46 [error] 23905#0: *3 FastCGI sent in stderr: "PHP message: PHP Warning:  include(/srv/vhosts/zend/Zend/Loader/AutoloaderFactory.php): failed to open stream: No such file or directory in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 38
+PHP message: PHP Warning:  include(): Failed opening '/srv/vhosts/zend/Zend/Loader/AutoloaderFactory.php' for inclusion (include_path='.:/usr/share/php:/usr/share/pear') in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 38
+PHP message: PHP Fatal error:  Class 'Zend\Loader\AutoloaderFactory' not found in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 39" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws"
+2013/02/05 03:23:47 [error] 23905#0: *3 FastCGI sent in stderr: "PHP message: PHP Warning:  include(/srv/vhosts/zend/Zend/Loader/AutoloaderFactory.php): failed to open stream: No such file or directory in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 38
+PHP message: PHP Warning:  include(): Failed opening '/srv/vhosts/zend/Zend/Loader/AutoloaderFactory.php' for inclusion (include_path='.:/usr/share/php:/usr/share/pear') in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 38
+PHP message: PHP Fatal error:  Class 'Zend\Loader\AutoloaderFactory' not found in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 39" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws"
+2013/02/05 03:24:26 [error] 24087#0: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws"
+2013/02/05 03:24:27 [error] 24087#0: *1 FastCGI sent in stderr: "PHP message: PHP Fatal error:  Uncaught exception 'RuntimeException' with message 'Unable to load ZF2. Run `php composer.phar install` or define a ZF2_PATH environment variable.' in /srv/vhosts/likeit.nexum.ws/init_autoloader.php:48
+Stack trace:
+#0 /srv/vhosts/likeit.nexum.ws/http/index.php(12): require()
+#1 {main}
+  thrown in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 48" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws"
+2013/02/05 03:29:22 [error] 24196#0: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  include(/srv/vhosts/library/Zend/Loader/AutoloaderFactory.php): failed to open stream: No such file or directory in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 38
+PHP message: PHP Warning:  include(): Failed opening '/srv/vhosts/library/Zend/Loader/AutoloaderFactory.php' for inclusion (include_path='.:/usr/share/php:/usr/share/pear') in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 38
+PHP message: PHP Fatal error:  Class 'Zend\Loader\AutoloaderFactory' not found in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 39" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws", referrer: "http://likeit.nexum.ws/"
+2013/02/05 03:29:25 [error] 24196#0: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  require_once(/srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/SplAutoloader.php): failed to open stream: No such file or directory in /srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/AutoloaderFactory.php on line 15
+PHP message: PHP Fatal error:  require_once(): Failed opening required '/srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/SplAutoloader.php' (include_path='.:/usr/share/php:/usr/share/pear') in /srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/AutoloaderFactory.php on line 15" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws", referrer: "http://likeit.nexum.ws/"
+2013/02/05 03:29:26 [error] 24196#0: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  require_once(/srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/SplAutoloader.php): failed to open stream: No such file or directory in /srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/AutoloaderFactory.php on line 15
+PHP message: PHP Fatal error:  require_once(): Failed opening required '/srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/SplAutoloader.php' (include_path='.:/usr/share/php:/usr/share/pear') in /srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/AutoloaderFactory.php on line 15" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws", referrer: "http://likeit.nexum.ws/"
+2013/02/05 03:29:29 [error] 24196#0: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  require_once(/srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/SplAutoloader.php): failed to open stream: No such file or directory in /srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/AutoloaderFactory.php on line 15
+PHP message: PHP Fatal error:  require_once(): Failed opening required '/srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/SplAutoloader.php' (include_path='.:/usr/share/php:/usr/share/pear') in /srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/AutoloaderFactory.php on line 15" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws", referrer: "http://likeit.nexum.ws/"
+2013/02/05 03:29:49 [error] 24196#0: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  require_once(/srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/SplAutoloader.php): failed to open stream: No such file or directory in /srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/AutoloaderFactory.php on line 15
+PHP message: PHP Fatal error:  require_once(): Failed opening required '/srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/SplAutoloader.php' (include_path='.:/usr/share/php:/usr/share/pear') in /srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/AutoloaderFactory.php on line 15" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws", referrer: "http://likeit.nexum.ws/"
+2013/02/05 03:30:26 [error] 24196#0: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  require_once(/srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/SplAutoloader.php): failed to open stream: No such file or directory in /srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/AutoloaderFactory.php on line 15
+PHP message: PHP Fatal error:  require_once(): Failed opening required '/srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/SplAutoloader.php' (include_path='.:/usr/share/php:/usr/share/pear') in /srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/AutoloaderFactory.php on line 15" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws", referrer: "http://likeit.nexum.ws/"
+2013/02/05 03:30:47 [error] 24210#0: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  require_once(/srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/SplAutoloader.php): failed to open stream: No such file or directory in /srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/AutoloaderFactory.php on line 15
+PHP message: PHP Fatal error:  require_once(): Failed opening required '/srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/SplAutoloader.php' (include_path='.:/usr/share/php:/usr/share/pear') in /srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/AutoloaderFactory.php on line 15" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws", referrer: "http://likeit.nexum.ws/"
+2013/02/05 03:30:47 [error] 24210#0: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  require_once(/srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/SplAutoloader.php): failed to open stream: No such file or directory in /srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/AutoloaderFactory.php on line 15
+PHP message: PHP Fatal error:  require_once(): Failed opening required '/srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/SplAutoloader.php' (include_path='.:/usr/share/php:/usr/share/pear') in /srv/vhosts/likeit.nexum.ws/vendor/ZF2/Zend/Loader/AutoloaderFactory.php on line 15" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws", referrer: "http://likeit.nexum.ws/"
+2013/02/05 03:31:20 [error] 24210#0: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  include(/srv/vhosts/library/Zend/Loader/AutoloaderFactory.php): failed to open stream: No such file or directory in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 38
+PHP message: PHP Warning:  include(): Failed opening '/srv/vhosts/library/Zend/Loader/AutoloaderFactory.php' for inclusion (include_path='.:/usr/share/php:/usr/share/pear') in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 38
+PHP message: PHP Fatal error:  Class 'Zend\Loader\AutoloaderFactory' not found in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 39" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws", referrer: "http://likeit.nexum.ws/"
+2013/02/05 03:31:20 [error] 24210#0: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  include(/srv/vhosts/library/Zend/Loader/AutoloaderFactory.php): failed to open stream: No such file or directory in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 38
+PHP message: PHP Warning:  include(): Failed opening '/srv/vhosts/library/Zend/Loader/AutoloaderFactory.php' for inclusion (include_path='.:/usr/share/php:/usr/share/pear') in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 38
+PHP message: PHP Fatal error:  Class 'Zend\Loader\AutoloaderFactory' not found in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 39" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws", referrer: "http://likeit.nexum.ws/"
+2013/02/05 03:31:23 [error] 24210#0: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  include(/srv/vhosts/library/Zend/Loader/AutoloaderFactory.php): failed to open stream: No such file or directory in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 38
+PHP message: PHP Warning:  include(): Failed opening '/srv/vhosts/library/Zend/Loader/AutoloaderFactory.php' for inclusion (include_path='.:/usr/share/php:/usr/share/pear') in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 38
+PHP message: PHP Fatal error:  Class 'Zend\Loader\AutoloaderFactory' not found in /srv/vhosts/likeit.nexum.ws/init_autoloader.php on line 39" while reading response header from upstream, client: 174.127.225.187, server: likeit.nexum.ws, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:9000", host: "likeit.nexum.ws", referrer: "http://likeit.nexum.ws/"
