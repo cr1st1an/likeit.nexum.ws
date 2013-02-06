@@ -1,7 +1,10 @@
+nbproject
+._*
+.~lock.*
+.buildpath
 .DS_Store
+.idea
 .project
-INSTALL.txt
-LICENSE.txt
-README.txt
-demos/
-extras/documentation
+.settings
+composer.lock
+config/autoload/local.php
