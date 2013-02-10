@@ -1,2 +1,10 @@
+nbproject
+._*
+.~lock.*
+.buildpath
 .DS_Store
-app/config/secure.ini
+.idea
+.project
+.settings
+composer.lock
+config/autoload/local.php
