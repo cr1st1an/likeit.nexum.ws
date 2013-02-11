@@ -1,1 +1,1 @@
-<?php require_once '../app/bootstrap.php';
+<?php require_once '../api/bootstrap.php';
