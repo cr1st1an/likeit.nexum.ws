@@ -6,9 +6,7 @@
 
 ### Framework
 
-El framework que estamos usando para este código es [Epiphany](https://github.com/jmathai/epiphany) el cual provee una serie de herramientas para la creación de servidores RESTful. La curva de aprendizaje es mínima, mientras que la flexibilidad y claridad que provee es extremadamente valiosa a la hora de hacer un servicio REST.
-
-Opté por dejar de usar Zend Framework porque la versión 2.0 aumento la complejidad y rigidés a un punto intolerable para algo tan específico.
+El framework que estamos usando es [Epiphany](https://github.com/jmathai/epiphany) el cual provee una serie de herramientas para la creación de servidores RESTful. La curva de aprendizaje es mínima, mientras que la flexibilidad y claridad que provee es extremadamente valiosa a la hora de hacer un servicio REST.
 
 ---------------------------------------- 
 

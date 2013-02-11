@@ -1,7 +1,7 @@
 <?php
 
-include_once Epi::getPath('controller') . '/users.php';
-getApi()->get('/v1/users/auth/?', array('Users', 'auth'), EpiApi::external);
+include_once Epi::getPath('controller') . '/subscribers.php';
+getApi()->get('/v1/subscribers/auth/?', array('Subscribers', 'auth'), EpiApi::external);
 
 function block() {
     return array(
