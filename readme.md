@@ -27,3 +27,14 @@ La estructura de directorios es la siguiente:
 - **http** folder público
 - **vendors** librerías de terceros
 - - **epi** epiphany framework
+
+---------------------------------------- 
+
+### Git Ignore
+
+Los siguientes archivos se deverán crear manualmente y no se deberán compartir en el repositorio:
+
+- **/api/config/secure.ini** variables de configuración
+- **/http/secure** directorio para pruebas o admin del servidor http
+
+---------------------------------------- 
