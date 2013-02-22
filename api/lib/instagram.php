@@ -23,27 +23,9 @@ class Instagram {
         include_once Epi::getPath('lib') . 'curl_client.php';
         $this->_curl_client = new CurlClient();
 
-        if (!empty($ACCESS_TOKEN))
+        if (!empty($ACCESS_TOKEN)) {
             $this->_access_token = $ACCESS_TOKEN;
-    }
-
-    public function request($method, $path, $data) {
-        $raw = null;
-        switch ($method) {
-        case 'post':
-            $raw = $this->_curl_client->post(self::API_OAUTH_TOKEN_URL, $data);
-        break;
-        case 'get':
-            $raw = $this->_curl_client->get(self::API_OAUTH_TOKEN_URL, $data);
-        break;
         }
-        $json = json_decode($raw, true);
-        if ($json == null) {
-            if (json_last_error() != JSON_ERROR_NONE) {
-                trigger_error(sprintf(`Could not unmarshal non-JSON string "%s"`, $raw), E_USER_ERROR);
-            }
-        }
-        return $json;
     }
 
     public function auth($CODE) {
@@ -55,8 +37,8 @@ class Instagram {
             'code' => $CODE
         );
 
-        return $this->request('post', self::API_OAUTH_TOKEN_URL, $data);
         //return json_decode($this->_curl_client->post(self::API_OAUTH_TOKEN_URL, $data), true);
+        return $this->_curl_client->request('post', self::API_OAUTH_TOKEN_URL, $data);
     }
 
     public function getUser() {
@@ -84,21 +66,26 @@ class Instagram {
     }
 
     public function getUserPhotosFeed($DATA) {
-        return json_decode($this->_curl_client->get(self::API_URL . '/users/self/feed', $DATA), true);
+        return $this->_curl_client->request('get', self::API_URL . '/users/self/feed', $DATA);
+        //return json_decode($this->_curl_client->get(self::API_URL . '/users/self/feed', $DATA), true);
     }
 
     public function getUserPhotosRecent($ID, $DATA) {
-        return json_decode($this->_curl_client->get(self::API_URL . '/users/'.$ID.'/media/recent', $DATA), true);
+        return $this->_curl_client->request('get', self::API_URL . '/users/'.$ID.'/media/recent', $DATA);
+        //return json_decode($this->_curl_client->get(self::API_URL . '/users/'.$ID.'/media/recent', $DATA), true);
     }
 
     public function getUserPhotosLiked($DATA) {
-        if(isset($DATA['max_id']))
+        if (isset($DATA['max_id'])) {
             $DATA['max_like_id'] = $DATA['max_id'];
-        return json_decode($this->_curl_client->get(self::API_URL . '/users/self/media/liked', $DATA), true);
+        }
+        return $this->_curl_client->request('get', self::API_URL . '/users/self/media/liked', $DATA);
+        //return json_decode($this->_curl_client->get(self::API_URL . '/users/self/media/liked', $DATA), true);
     }
 
     public function getUsers($DATA) {
-        return json_decode($this->_curl_client->get(self::API_URL . '/users/search', $DATA), true);
+        return $this->_curl_client->request('get', self::API_URL . '/users/search', $DATA);
+        //return json_decode($this->_curl_client->get(self::API_URL . '/users/search', $DATA), true);
     }
 
     public function getPhotosNear() {
@@ -106,7 +93,8 @@ class Instagram {
     }
 
     public function getPhotosPopular($DATA) {
-        return json_decode($this->_curl_client->get(self::API_URL . '/media/popular', $DATA), true);
+        return $this->_curl_client->request('get', self::API_URL . '/media/popular', $DATA);
+        //return json_decode($this->_curl_client->get(self::API_URL . '/media/popular', $DATA), true);
     }
 
     public function getPhoto() {
@@ -142,13 +130,16 @@ class Instagram {
     }
 
     public function getTagPhotosRecent($NAME, $DATA) {
-        if(isset($DATA['max_id']))
+        if (isset($DATA['max_id'])) {
             $DATA['max_tag_id'] = $DATA['max_id'];
-        return json_decode($this->_curl_client->get(self::API_URL . '/tags/'.$NAME.'/media/recent', $DATA), true);
+        }
+        return $this->_curl_client->request('get', self::API_URL . '/tags/'.$NAME.'/media/recent', $DATA);
+        //return json_decode($this->_curl_client->get(self::API_URL . '/tags/'.$NAME.'/media/recent', $DATA), true);
     }
 
     public function getTags($DATA) {
-        return json_decode($this->_curl_client->get(self::API_URL . '/tags/search', $DATA), true);
+        return $this->_curl_client->request('get', self::API_URL . '/tags/search', $DATA);
+        //return json_decode($this->_curl_client->get(self::API_URL . '/tags/search', $DATA), true);
     }
 
     public function getLocation() {
@@ -156,11 +147,13 @@ class Instagram {
     }
 
     public function getLocationPhotosRecent($ID, $DATA) {
-        return json_decode($this->_curl_client->get(self::API_URL . '/locations/'.$ID.'/media/recent', $DATA), true);
+        return $this->_curl_client->request('get', self::API_URL . '/locations/'.$ID.'/media/recent', $DATA);
+        //return json_decode($this->_curl_client->get(self::API_URL . '/locations/'.$ID.'/media/recent', $DATA), true);
     }
 
     public function getLocations($DATA) {
-        return json_decode($this->_curl_client->get(self::API_URL . '/locations/search', $DATA), true);
+        return $this->_curl_client->request('get', self::API_URL . '/locations/search', $DATA);
+        //return json_decode($this->_curl_client->get(self::API_URL . '/locations/search', $DATA), true);
     }
 
     public function getGeoPhotosRecent() {
