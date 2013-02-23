@@ -3,39 +3,41 @@
 class DataCleaner {
 
     public function photoFeed($FEED_DATA) {
-        $data_photos = array();
+        $photos_data = array();
 
         foreach ($FEED_DATA as $key => $data) {
-            $data_photos[$key]['id'] = $data['id'];
-            $data_photos[$key]['src_306'] = $data['images']['low_resolution']['url'];
+            $photos_data[$key]['id'] = $data['id'];
+            $photos_data[$key]['src_150'] = $data['images']['thumbnail']['url'];
+            $photos_data[$key]['src_306'] = $data['images']['low_resolution']['url'];
+            $photos_data[$key]['src_612'] = $data['images']['standard_resolution']['url'];
         }
 
-        return $data_photos;
+        return $photos_data;
     }
 
     public function searchResults($KIND, $RESULTS_DATA) {
-        $data_results = array();
+        $results_data = array();
 
         foreach ($RESULTS_DATA as $key => $data) {
-            $data_results[$key]['kind'] = $KIND;
+            $results_data[$key]['kind'] = $KIND;
             switch($KIND){
                 case 'tags':
-                    $data_results[$key]['id'] = $data['name'];
-                    $data_results[$key]['text'] = '#'.$data['name'];
+                    $results_data[$key]['id'] = $data['name'];
+                    $results_data[$key]['text'] = '#'.$data['name'];
                     break;
                 case 'users':
-                    $data_results[$key]['id'] = $data['id'];
-                    $data_results[$key]['text'] = '@'.$data['username'];
-                    $data_results[$key]['photo'] = $data['profile_picture'];
+                    $results_data[$key]['id'] = $data['id'];
+                    $results_data[$key]['text'] = '@'.$data['username'];
+                    $results_data[$key]['photo'] = $data['profile_picture'];
                     break;
                 case 'locations':
-                    $data_results[$key]['id'] = $data['id'];
-                    $data_results[$key]['text'] = $data['name'];
+                    $results_data[$key]['id'] = $data['id'];
+                    $results_data[$key]['text'] = $data['name'];
                     break;
             }
         }
         
-        return $data_results;
+        return $results_data;
     }
 
 }

@@ -10,9 +10,9 @@ class EpiCache_Memcached extends EpiCache
   public function __construct($params = array())
   {
     $this->host = !empty($params[0]) ? $params[0] : 'localhost';
-    $this->port = !empty($params[1]) ? $params[1] : 11211;;
-    $this->compress = !empty($params[2]) ? $params[2] : 0;;
-    $this->expiry   = !empty($params[3]) ? $params[3] : 3600;
+    $this->port = !empty($params[1]) ? $params[1] : 11211;
+    $this->compress = isset($params[2]) ? $params[2] : 0;
+    $this->expiry   = isset($params[3]) ? $params[3] : 3600;
   }
 
   public function delete($key, $timeout = 0)

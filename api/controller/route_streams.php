@@ -8,10 +8,10 @@ class Route_Streams {
         
         $Instagram = new Instagram();
         
-        $data_request = array();
-        $data_request['access_token'] = '806569.8c8f279.1f0c39aafdc14d3b85b5ab8860022294';
+        $request_data = array();
+        $request_data['access_token'] = '806569.8c8f279.1f0c39aafdc14d3b85b5ab8860022294';
         
-        $r_getPhotos = $Instagram->getUserPhotosLiked($data_request);
+        $r_getPhotos = $Instagram->getUserPhotosLiked($request_data);
         
         print_r($r_getPhotos);
     }
@@ -28,7 +28,7 @@ class Route_Streams {
         $response = array();
         $params = array();
         $get = array();
-        $data_photos = array();
+        $photos_data = array();
         $next_max_key = 'next_max_id';
         $next_max_id = null;
 
@@ -55,33 +55,33 @@ class Route_Streams {
         }
 
         if (empty($response)) {
-            $data_request = array();
-            $data_request['access_token'] = getSession()->get('access_token');
-            $data_request['count'] = 24;
+            $request_data = array();
+            $request_data['access_token'] = getSession()->get('access_token');
+            $request_data['count'] = 24;
 
             if (isset($_GET['max_id']))
-                $data_request['max_id'] = $_GET['max_id'];
+                $request_data['max_id'] = $_GET['max_id'];
 
             switch ($get['kind']) {
                 case 'popular':
-                    $r_getPhotos = $Instagram->getPhotosPopular($data_request);
+                    $r_getPhotos = $Instagram->getPhotosPopular($request_data);
                     break;
                 case 'feed':
-                    $r_getPhotos = $Instagram->getUserPhotosFeed($data_request);
+                    $r_getPhotos = $Instagram->getUserPhotosFeed($request_data);
                     break;
                 case 'liked':
-                    $r_getPhotos = $Instagram->getUserPhotosLiked($data_request);
+                    $r_getPhotos = $Instagram->getUserPhotosLiked($request_data);
                     $next_max_key = 'next_max_like_id';
                     break;
                 case 'user':
-                    $r_getPhotos = $Instagram->getUserPhotosRecent($get['id'], $data_request);
+                    $r_getPhotos = $Instagram->getUserPhotosRecent($get['id'], $request_data);
                     break;
                 case 'tag':
-                    $r_getPhotos = $Instagram->getTagPhotosRecent($get['id'], $data_request);
+                    $r_getPhotos = $Instagram->getTagPhotosRecent($get['id'], $request_data);
                     $next_max_key = 'next_max_tag_id';
                     break;
                 case 'location':
-                    $r_getPhotos = $Instagram->getLocationPhotosRecent($get['id'], $data_request);
+                    $r_getPhotos = $Instagram->getLocationPhotosRecent($get['id'], $request_data);
                     break;
             }
 
@@ -89,7 +89,7 @@ class Route_Streams {
                 $response['success'] = false;
                 $response['message'] = t('error001') . $r_getPhotos['meta']['error_message'];
             } else {
-                $data_photos = $DataCleaner->photoFeed($r_getPhotos['data']);
+                $photos_data = $DataCleaner->photoFeed($r_getPhotos['data']);
                 if(isset($r_getPhotos['pagination'][$next_max_key]))
                     $next_max_id = $r_getPhotos['pagination'][$next_max_key];
             }
@@ -99,7 +99,7 @@ class Route_Streams {
             $response['success'] = true;
             $response['message'] = t('ok005');
             $response['kind'] = $get['kind'];
-            $response['data_photos'] = $data_photos;
+            $response['photos_data'] = $photos_data;
             $response['next_max_id'] = $next_max_id;
         }
 
@@ -118,7 +118,7 @@ class Route_Streams {
         $response = array();
         $params = array();
         $get = array();
-        $data_results = array();
+        $results_data = array();
 
         $response = $Validator->verifySession();
 
@@ -147,26 +147,26 @@ class Route_Streams {
 
         if (empty($response)) {
 
-            $data_request = array();
-            $data_request['access_token'] = getSession()->get('access_token');
+            $request_data = array();
+            $request_data['access_token'] = getSession()->get('access_token');
 
             if (isset($get['q']))
-                $data_request['q'] = $get['q'];
+                $request_data['q'] = $get['q'];
 
             if (isset($get['lat']))
-                $data_request['lat'] = $get['lat'];
+                $request_data['lat'] = $get['lat'];
             if (isset($get['lng']))
-                $data_request['lng'] = $get['lng'];
+                $request_data['lng'] = $get['lng'];
 
             switch ($get['kind']) {
                 case 'users':
-                    $r_getResults = $Instagram->getUsers($data_request);
+                    $r_getResults = $Instagram->getUsers($request_data);
                     break;
                 case 'tags':
-                    $r_getResults = $Instagram->getTags($data_request);
+                    $r_getResults = $Instagram->getTags($request_data);
                     break;
                 case 'locations':
-                    $r_getResults = $Instagram->getLocations($data_request);
+                    $r_getResults = $Instagram->getLocations($request_data);
                     break;
             }
 
@@ -174,7 +174,7 @@ class Route_Streams {
                 $response['success'] = false;
                 $response['message'] = t('error001') . $r_getResults['meta']['error_message'];
             } else {
-                $data_results = $DataCleaner->searchResults($get['kind'], $r_getResults['data']);
+                $results_data = $DataCleaner->searchResults($get['kind'], $r_getResults['data']);
             }
         }
 
@@ -182,7 +182,7 @@ class Route_Streams {
             $response['success'] = true;
             $response['message'] = t('ok005');
             $response['kind'] = $get['kind'];
-            $response['data_results'] = $data_results;
+            $response['results_data'] = $results_data;
         }
 
         return $response;

@@ -53,12 +53,12 @@ class Route_Sessions {
                     $id_subscriber = $r_insertValuesIdInstagram_1['id_subscriber'];
                 }
             } else {
-                $id_subscriber = $r_selectWhereIdInstagram_1['data_subscriber']['id_subscriber'];
+                $id_subscriber = $r_selectWhereIdInstagram_1['subscriber_data']['id_subscriber'];
             }
         }
 
         if (empty($response)) {
-            $data_session = array(
+            $session_data = array(
                 'id_subscriber' => $id_subscriber,
                 'id_instagram' => $instagram_user['id'],
                 'id_install' => $post['id_install'],
@@ -67,7 +67,7 @@ class Route_Sessions {
                 'md5_code' => md5($post['code']),
                 'access_token' => $access_token
             );
-            $r_insert_1 = $DB_Sessions->insert($data_session);
+            $r_insert_1 = $DB_Sessions->insert($session_data);
 
             if (!$r_insert_1['success']) {
                 $response = $r_insert_1;
@@ -76,9 +76,9 @@ class Route_Sessions {
 
         if (empty($response)) {
             getSession()->set('id_session', $r_insert_1['id_session']);
-            getSession()->set('id_subscriber', $data_session['id_subscriber']);
-            getSession()->set('id_instagram', $data_session['id_instagram']);
-            getSession()->set('access_token', $data_session['access_token']);
+            getSession()->set('id_subscriber', $session_data['id_subscriber']);
+            getSession()->set('id_instagram', $session_data['id_instagram']);
+            getSession()->set('access_token', $session_data['access_token']);
 
             $response['success'] = true;
             $response['message'] = t('ok001') . getSession()->get('id_session');

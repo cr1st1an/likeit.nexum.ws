@@ -44,7 +44,7 @@ class DB_Subscribers {
             } else {
                 $response['success'] = true;
                 $response['message'] = t('ok003') . $id_instagram;
-                $response['data_subscriber'] = $subscriber;
+                $response['subscriber_data'] = $subscriber;
             }
         }
         
