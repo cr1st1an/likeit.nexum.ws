@@ -10,7 +10,13 @@ $lang = array(
     'ok003' => "Aquí está la subscripción relacionada con el id de instagram: ",
     'ok004' => "Todo el contenido está presente",
     'ok005' => "Aquí están las fotos",
-    'ok005' => "Aquí están los resultados",
+    'ok006' => "Registramos tu like",
+    'ok007' => "Aquí está el stream relacionado con: ",
+    'ok008' => "Registramos el stream",
+    'ok009' => "Registramos la relación",
+    'ok010' => "Aquí están los resultados",
+    'ok011' => "Aquí están los streams relacionados con el id: ",
+    'ok012' => "Eliminamos el stream con id: ",
     
     'error001' => "Instagram dice: ",
     'error002' => "No pudimos registrar al subscriptor con id: ",
@@ -18,4 +24,5 @@ $lang = array(
     'error004' => "No encontramos la subscripción relacionada con el id de instagram: ",
     'error005' => "No encontramos el contenido de: ",
     'error006' => "Necesitas identificarte para hacer esto",
+    'error007' => "No encontramos un stream para: ",
 );

@@ -14,7 +14,7 @@ class DB_Sessions {
 
         if (empty($response)) {
             $r_getDataParams_1 = $Validator->getDataParams(array(
-                'id_subscriber', 'id_instagram', 'id_install', 'created', 'client', 'version', 'md5_code', 'access_token'
+                'id_subscriber', 'id_ig_user', 'id_install', 'created', 'client', 'version', 'md5_code', 'access_token'
                     ), $DATA);
 
             if (!$r_getDataParams_1['success']) {
@@ -24,19 +24,16 @@ class DB_Sessions {
             }
         }
 
-
-        //$ID_SUBSCRIBER, $ID_INSTAGRAM, $CLIENT, $VERSION, $id_install, $CODE, $ACCESS_TOKEN
-
         if (empty($response)) {
             $id_session = getDatabase()->execute(
-                    'INSERT INTO ' . $this->_name . '(id_subscriber, id_instagram, id_install, created, client, version, md5_code, access_token) VALUES(:id_subscriber, :id_instagram, :id_install, :created, :client, :version, :md5_code, :access_token)', $data
+                    'INSERT INTO ' . $this->_name . '(id_subscriber, id_ig_user, id_install, created, client, version, md5_code, access_token) VALUES(:id_subscriber, :id_ig_user, :id_install, :created, :client, :version, :md5_code, :access_token)', $data
             );
-            
+
             $response['success'] = true;
             $response['message'] = t('ok001') . $id_session;
             $response['id_session'] = $id_session;
         }
-        
+
         return $response;
     }
 

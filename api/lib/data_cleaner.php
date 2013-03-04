@@ -1,13 +1,23 @@
 <?php
 
 class DataCleaner {
-
+    
+    public function thumbnail($FEED_DATA){
+        $thumbnail = null;
+        
+        if(isset($FEED_DATA[0]['urls']['306']))
+            $thumbnail = $FEED_DATA[0]['urls']['306'];
+        
+        return $thumbnail;
+    }
+    
     public function photoFeed($FEED_DATA) {
         $photos_data = array();
 
         foreach ($FEED_DATA as $key => $data) {
             $photos_data[$key]['id'] = $data['id'];
             $photos_data[$key]['caption'] = $data['caption']['text'];
+            $photos_data[$key]['liked'] = $data['user_has_liked'];
             
             $photos_data[$key]['author'] = array();
             $photos_data[$key]['author']['id'] = $data['user']['id'];
@@ -27,11 +37,12 @@ class DataCleaner {
             
             $photos_data[$key]['likes'] = array();
             $photos_data[$key]['likes']['count'] = $data['likes']['count'];
+            $photos_data[$key]['likes']['data'] = array();
             foreach($data['likes']['data'] as $key_like => $data_like){
-                $photos_data[$key]['likes'][$key_like]['id'] = $data_like['id'];
-                $photos_data[$key]['likes'][$key_like]['profile_picture'] = $data_like['profile_picture'];
+                $photos_data[$key]['likes']['data'][$key_like]['id'] = $data_like['id'];
+                $photos_data[$key]['likes']['data'][$key_like]['username'] = $data_like['username'];
+                $photos_data[$key]['likes']['data'][$key_like]['profile_picture'] = $data_like['profile_picture'];
             }
-            
         }
         
         return $photos_data;

@@ -43,24 +43,24 @@ class Route_Sessions {
         }
 
         if (empty($response)) {
-            $r_selectWhereIdInstagram_1 = $DB_Subscribers->selectWhereIdInstagram($instagram_user['id']);
-            if (!$r_selectWhereIdInstagram_1['success']) {
-                $r_insertValuesIdInstagram_1 = $DB_Subscribers->insertValuesIdInstagram($instagram_user['id']);
-                if (!$r_insertValuesIdInstagram_1['success']) {
+            $r_selectWhereIdInstagram = $DB_Subscribers->selectWhereIdIG($instagram_user['id']);
+            if (!$r_selectWhereIdInstagram['success']) {
+                $r_insertValuesIdInstagram = $DB_Subscribers->insertValuesIdIG($instagram_user['id']);
+                if (!$r_insertValuesIdInstagram['success']) {
                     $response['success'] = false;
                     $response['message'] = t('error002') . $instagram_user['id'];
                 } else {
-                    $id_subscriber = $r_insertValuesIdInstagram_1['id_subscriber'];
+                    $id_subscriber = $r_insertValuesIdInstagram['id_subscriber'];
                 }
             } else {
-                $id_subscriber = $r_selectWhereIdInstagram_1['subscriber_data']['id_subscriber'];
+                $id_subscriber = $r_selectWhereIdInstagram['subscriber_data']['id_subscriber'];
             }
         }
 
         if (empty($response)) {
             $session_data = array(
                 'id_subscriber' => $id_subscriber,
-                'id_instagram' => $instagram_user['id'],
+                'id_ig_user' => $instagram_user['id'],
                 'id_install' => $post['id_install'],
                 'client' => $post['client'],
                 'version' => $post['version'],
@@ -77,8 +77,9 @@ class Route_Sessions {
         if (empty($response)) {
             getSession()->set('id_session', $r_insert_1['id_session']);
             getSession()->set('id_subscriber', $session_data['id_subscriber']);
-            getSession()->set('id_instagram', $session_data['id_instagram']);
+            getSession()->set('id_ig_user', $session_data['id_ig_user']);
             getSession()->set('access_token', $session_data['access_token']);
+            getSession()->set('user', $instagram_user);
 
             $response['success'] = true;
             $response['message'] = t('ok001') . getSession()->get('id_session');

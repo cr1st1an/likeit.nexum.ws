@@ -109,12 +109,12 @@ class Instagram {
         
     }
 
-    public function postPhotoLike() {
-        
+    public function postPhotoLike($ID, $DATA) {
+        return json_decode($this->_curl_client->post(self::API_URL . '/media/'.$ID.'/likes', $DATA), true);
     }
-
-    public function deletePhotoLike() {
-        
+    
+    public function deletePhotoLike($ID, $DATA) {
+        return json_decode($this->_curl_client->delete(self::API_URL . '/media/'.$ID.'/likes', $DATA), true);
     }
 
     public function getTag() {

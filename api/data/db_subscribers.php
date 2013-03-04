@@ -4,18 +4,18 @@ class DB_Subscribers {
 
     protected $_name = 'subscribers';
 
-    public function insertValuesIdInstagram($ID_INSTAGRAM) {
+    public function insertValuesIdIG($ID_IG_USER) {
         $response = array();
         
-        $id_instagram = (int) $ID_INSTAGRAM;
-        if (empty($response) && empty($id_instagram)) {
+        $id_ig_user = (int) $ID_IG_USER;
+        if (empty($response) && empty($id_ig_user)) {
             $response['success'] = false;
-            $response['message'] = t('error003') . "ID_INSTAGRAM ". t('txt003') . "DB_Subscribers->insert()";
+            $response['message'] = t('error003') . "ID_IG_USER ". t('txt003') . "DB_Subscribers->insert()";
         }
         
         if (empty($response)) {
             $id_subscriber = getDatabase()->execute(
-                    'INSERT INTO ' . $this->_name . '(created, id_instagram) VALUES(:created, :id_instagram)', array(':created' => date("Y-m-d H:i:s"), ':id_instagram' => $id_instagram)
+                    'INSERT INTO ' . $this->_name . '(created, id_ig_user) VALUES(:created, :id_ig_user)', array(':created' => date("Y-m-d H:i:s"), ':id_ig_user' => $id_ig_user)
             );
             
             $response['success'] = true;
@@ -26,24 +26,24 @@ class DB_Subscribers {
         return $response;
     }
 
-    public function selectWhereIdInstagram($ID_INSTAGRAM) {
+    public function selectWhereIdIG($ID_IG_USER) {
         $response = array();
         
-        $id_instagram = (int) $ID_INSTAGRAM;
-        if (empty($response) && empty($id_instagram)) {
+        $id_ig_user = (int) $ID_IG_USER;
+        if (empty($response) && empty($id_ig_user)) {
             $response['success'] = false;
-            $response['message'] = t('error003') . "ID_INSTAGRAM ". t('txt003') . "DB_Subscribers->selectWhereIdInstagram()";
+            $response['message'] = t('error003') . "ID_IG_USER ". t('txt003') . "DB_Subscribers->selectWhereIdInstagram()";
         }
         
         if (empty($response)) {
-            $subscriber = getDatabase()->one('SELECT * FROM ' . $this->_name . ' WHERE id_instagram=:id_instagram', array(':id_instagram' => $id_instagram));
+            $subscriber = getDatabase()->one('SELECT * FROM ' . $this->_name . ' WHERE id_ig_user=:id_ig_user', array(':id_ig_user' => $id_ig_user));
 
             if (empty($subscriber)) {
                 $response['success'] = false;
-                $response['message'] = t('error004') . $id_instagram;
+                $response['message'] = t('error004') . $id_ig_user;
             } else {
                 $response['success'] = true;
-                $response['message'] = t('ok003') . $id_instagram;
+                $response['message'] = t('ok003') . $id_ig_user;
                 $response['subscriber_data'] = $subscriber;
             }
         }
@@ -51,7 +51,7 @@ class DB_Subscribers {
         return $response;
     }
 
-    public function update($ID_SUBSCRIBER, $DATA) {
+    public function update() {
         
     }
 

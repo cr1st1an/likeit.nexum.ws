@@ -10,7 +10,7 @@ Epi::setPath('data', Epi::getPath('root') . '/api/data/');
 Epi::setPath('locale', Epi::getPath('root') . '/api/locale/');
 Epi::setPath('lib', Epi::getPath('root') . '/api/lib/');
 
-Epi::init('api', 'cache', 'config', 'database', 'route', 'session');
+Epi::init('api', 'cache', 'config', 'database', 'route', 'session', 'template');
 
 getConfig()->load('default.ini', 'secure.ini');
 
@@ -22,15 +22,13 @@ EpiDatabase::employ(
         getConfig()->get('db')->type, getConfig()->get('db')->name, getConfig()->get('db')->host, getConfig()->get('db')->username, getConfig()->get('db')->password
 );
 
-EpiCache::employ(
-        EpiCache::getInstance(
-                EpiCache::MEMCACHED, getConfig()->get('memcached')->host, getConfig()->get('memcached')->port, getConfig()->get('memcached')->compress, getConfig()->get('memcached')->expiry
-        )
-);
-
 EpiSession::employ(
-        EpiSession::getInstance(
-                EpiCache::MEMCACHED, getConfig()->get('memcached')->host, getConfig()->get('memcached')->port, getConfig()->get('memcached')->compress, getConfig()->get('memcached')->expiry
+        array(
+            EpiSession::MEMCACHED,
+            getConfig()->get('memcached')->host,
+            getConfig()->get('memcached')->port,
+            getConfig()->get('memcached')->compress,
+            getConfig()->get('memcached')->expiry
         )
 );
 
@@ -46,7 +44,6 @@ function t($key) {
 }
 
 // MAIN CONTROLLER
-
 include_once 'controller/v1.php';
 
 getRoute()->run();
