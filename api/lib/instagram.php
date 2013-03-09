@@ -55,12 +55,12 @@ class Instagram {
         
     }
 
-    public function getUserRelationship() {
-        
+    public function getUserRelationship($ID, $DATA) {
+        return json_decode($this->_curl_client->get(self::API_URL . '/users/'.$ID.'/relationship', $DATA), true);
     }
 
-    public function postUserRelationship() {
-        
+    public function postUserRelationship($ID, $DATA) {
+        return json_decode($this->_curl_client->post(self::API_URL . '/users/'.$ID.'/relationship', $DATA), true);
     }
 
     public function getUserPhotosFeed($DATA) {
@@ -89,8 +89,8 @@ class Instagram {
         return json_decode($this->_curl_client->get(self::API_URL . '/media/popular', $DATA), true);
     }
 
-    public function getPhoto() {
-        
+    public function getPhoto($ID, $DATA) {
+        return json_decode($this->_curl_client->get(self::API_URL . '/media/'.$ID, $DATA), true);
     }
 
     public function getPhotoComments() {

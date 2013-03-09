@@ -2,11 +2,12 @@
 
 class Route_Likes {
 
-    public function deleteRoot($ID_IG_PHOTO) {
+    public function deleteRoot($ID_IG_MEDIA) {
         include_once Epi::getPath('lib') . 'instagram.php';
         include_once Epi::getPath('lib') . 'validator.php';
         
         $Instagram = new Instagram();
+        $Validator = new Validator();
 
         $response = array();
         
@@ -16,7 +17,7 @@ class Route_Likes {
             $request_data = array();
             $request_data['access_token'] = getSession()->get('access_token');
             
-            $r_deleteLike = $Instagram->deletePhotoLike($ID_IG_PHOTO, $request_data);
+            $r_deleteLike = $Instagram->deletePhotoLike($ID_IG_MEDIA, $request_data);
             
             if (200 !== $r_deleteLike['meta']['code']) {
                 $response['success'] = false;
@@ -26,7 +27,7 @@ class Route_Likes {
         
         if (empty($response)) {
             $response['success'] = true;
-            $response['message'] = t('ok006');
+            $response['message'] = t('ok016');
         }
         
         return $response;
@@ -45,7 +46,7 @@ class Route_Likes {
         $response = $Validator->verifySession();
 
         if (empty($response)) {
-            $r_getPostParams = $Validator->getPostParams(array('id_ig_photo'));
+            $r_getPostParams = $Validator->getPostParams(array('id_ig_media'));
 
             if (!$r_getPostParams['success']) {
                 $response = $r_getPostParams;
@@ -59,7 +60,7 @@ class Route_Likes {
             $request_data['access_token'] = getSession()->get('access_token');
             
             
-            $r_postLike = $Instagram->postPhotoLike($post['id_ig_photo'], $request_data);
+            $r_postLike = $Instagram->postPhotoLike($post['id_ig_media'], $request_data);
             
             if (200 !== $r_postLike['meta']['code']) {
                 $response['success'] = false;

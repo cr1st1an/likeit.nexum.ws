@@ -15,7 +15,7 @@ class DataCleaner {
         $photos_data = array();
 
         foreach ($FEED_DATA as $key => $data) {
-            $photos_data[$key]['id'] = $data['id'];
+            $photos_data[$key]['id_ig_media'] = $data['id'];
             $photos_data[$key]['caption'] = $data['caption']['text'];
             $photos_data[$key]['liked'] = $data['user_has_liked'];
             

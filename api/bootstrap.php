@@ -21,6 +21,9 @@ define('INSTAGRAM_CALLBACK_URL', 'http://login.nexum.ws/instagram/');
 EpiDatabase::employ(
         getConfig()->get('db')->type, getConfig()->get('db')->name, getConfig()->get('db')->host, getConfig()->get('db')->username, getConfig()->get('db')->password
 );
+getDatabase()->execute('SET NAMES utf8mb4 COLLATE utf8mb4_bin;');
+
+EpiCache::employ(EpiCache::MEMCACHED);
 
 EpiSession::employ(
         array(

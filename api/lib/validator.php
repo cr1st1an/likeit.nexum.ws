@@ -23,7 +23,7 @@ class Validator {
             if (empty($response)) {
                 if (empty($_GET[$key])) {
                     $response['success'] = false;
-                    $response['message'] = t('error005') . $key;
+                    $response['message'] = t('error003') . $key;
                 } else {
                     $get[$key] = $_GET[$key];
                 }
@@ -32,7 +32,7 @@ class Validator {
 
         if (empty($response)) {
             $response['success'] = true;
-            $response['message'] = "All the required parameters are present";
+            $response['message'] = t('ok004');
             $response['get'] = $get;
         }
 
@@ -47,7 +47,7 @@ class Validator {
             if (empty($response)) {
                 if (empty($_POST[$key])) {
                     $response['success'] = false;
-                    $response['message'] = t('error005') . $key;
+                    $response['message'] = t('error003') . $key;
                 } else {
                     $post[$key] = $_POST[$key];
                 }
@@ -56,7 +56,7 @@ class Validator {
 
         if (empty($response)) {
             $response['success'] = true;
-            $response['message'] = "All the required parameters are present";
+            $response['message'] = t('ok004');
             $response['post'] = $post;
         }
 
@@ -72,7 +72,7 @@ class Validator {
                 if (empty($DATA[$key])) {
                     if ('created' !== $key) {
                         $response['success'] = false;
-                        $response['message'] = t('error005') . $key;
+                        $response['message'] = t('error003') . $key;
                     } else {
                         $data[':created'] = date("Y-m-d H:i:s");
                     }

@@ -2,10 +2,26 @@
 
 class Route_Streams {
 
+    public function test() {
+        include_once Epi::getPath('lib') . 'instagram.php';
+
+        $Instagram = new Instagram();
+
+        $request_data = array();
+        $request_data['access_token'] = '806569.8c8f279.1f0c39aafdc14d3b85b5ab8860022294';
+        $request_data['count'] = 100;
+        
+        $response = $Instagram->getUserPhotosRecent('3000558', $request_data);
+        
+        print_r($response);
+    }
+
     public function getRoot() {
+        include_once Epi::getPath('data') . 'mc_streams.php';
         include_once Epi::getPath('data') . 'db_streams_subscribers.php';
         include_once Epi::getPath('lib') . 'validator.php';
 
+        $MC_Streams = new MC_Streams();
         $DB_Streams_Subscribers = new DB_Streams_Subscribers();
 
         $Validator = new Validator();
@@ -17,25 +33,27 @@ class Route_Streams {
         $response = $Validator->verifySession();
 
         if (empty($response)) {
-            $streams_default = array();
-            $streams_default[0] = array(
-                'id_stream' => 'default',
-                'stream' => 'feed',
-                'identifier' => $user['id'],
-                'label' => 'Feed',
-                'thumbnail' => 'cover/image_0.png'
-            );
-            $streams_default[1] = array(
-                'id_stream' => 'default',
-                'stream' => 'user',
-                'identifier' => $user['id'],
-                'label' => $user['username'],
-                'thumbnail' => 'cover/image_1.png'
-            );
-            
-            $response = $DB_Streams_Subscribers->select($id_subscriber);
-            
-            $response['streams_data'] = array_merge($streams_default, $response['streams_data']);
+            $r_select = $DB_Streams_Subscribers->select($id_subscriber);
+
+            if (!$r_select['success']) {
+                $response = $r_select;
+            }
+        }
+
+        if (empty($response)) {
+            $streams_data = $r_select['streams_data'];
+
+            foreach ($streams_data as $id => $stream_data) {
+                $r_getStream = $MC_Streams->getStream($stream_data['stream'], $stream_data['identifier']);
+
+                if ($r_getStream['success']) {
+                    $streams_data[$id]['thumbnail'] = $r_getStream['stream_data']['thumbnail'];
+                }
+            }
+
+            $response['success'] = true;
+            $response['message'] = t('ok011');
+            $response['streams_data'] = $streams_data;
         }
 
         return $response;
@@ -44,13 +62,11 @@ class Route_Streams {
     public function postRoot() {
         include_once Epi::getPath('data') . 'db_streams.php';
         include_once Epi::getPath('data') . 'db_streams_subscribers.php';
-        include_once Epi::getPath('lib') . 'data_cleaner.php';
         include_once Epi::getPath('lib') . 'validator.php';
 
         $DB_Streams = new DB_Streams();
         $DB_Streams_Subscribers = new DB_Streams_Subscribers();
 
-        $DataCleaner = new DataCleaner();
         $Validator = new Validator();
 
         $response = array();
@@ -61,7 +77,7 @@ class Route_Streams {
         $response = $Validator->verifySession();
 
         if (empty($response)) {
-            $r_getPostParams = $Validator->getPostParams(array('stream', 'identifier', 'label'));
+            $r_getPostParams = $Validator->getPostParams(array('stream', 'identifier', 'title'));
 
             if (!$r_getPostParams['success']) {
                 $response = $r_getPostParams;
@@ -73,26 +89,22 @@ class Route_Streams {
         if (empty($response)) {
             $r_selectWhereStreamIdentifier = $DB_Streams->selectWhereStreamIdentifier($post['stream'], $post['identifier']);
             if (!$r_selectWhereStreamIdentifier['success']) {
-                $r_streamInstagram = getApi()->invoke('/v1/streams/instagram', EpiRoute::httpGet, array('_GET' => array('stream' => $post['stream'], 'identifier' => $post['identifier'])));
-                if (!$r_streamInstagram['success']) {
-                    $response = $r_streamInstagram;
-                } else {
-                    $stream_data = array(
-                        'stream' => $post['stream'],
-                        'identifier' => $post['identifier'],
-                        'label' => $post['label'],
-                        'thumbnail' => $DataCleaner->thumbnail($r_streamInstagram['photos_data'])
-                    );
-                    $r_insert_1 = $DB_Streams->insert($stream_data);
+                $stream_data = array(
+                    'stream' => $post['stream'],
+                    'identifier' => $post['identifier'],
+                    'title' => $post['title']
+                );
+                $r_insert_1 = $DB_Streams->insert($stream_data);
 
-                    if (!$r_insert_1['success']) {
-                        $response = $r_insert_1;
-                    } else {
-                        $id_stream = $r_insert_1['id_stream'];
-                    }
+                if (!$r_insert_1['success']) {
+                    $response = $r_insert_1;
+                } else {
+                    $id_stream = $r_insert_1['id_stream'];
+                    $stream_data['id_stream'] = $id_stream;
                 }
             } else {
                 $id_stream = $r_selectWhereStreamIdentifier['stream_data']['id_stream'];
+                $stream_data = $r_selectWhereStreamIdentifier['stream_data'];
             }
         }
 
@@ -111,6 +123,7 @@ class Route_Streams {
         if (empty($response)) {
             $response['success'] = true;
             $response['message'] = t('ok008');
+            $response['stream_data'] = $stream_data;
         }
 
         return $response;
@@ -137,9 +150,12 @@ class Route_Streams {
     }
 
     public function getInstagram() {
+        include_once Epi::getPath('data') . 'mc_streams.php';
         include_once Epi::getPath('lib') . 'data_cleaner.php';
         include_once Epi::getPath('lib') . 'instagram.php';
         include_once Epi::getPath('lib') . 'validator.php';
+
+        $MC_Streams = new MC_Streams();
 
         $DataCleaner = new DataCleaner();
         $Instagram = new Instagram();
@@ -151,6 +167,7 @@ class Route_Streams {
         $photos_data = array();
         $next_max_key = 'next_max_id';
         $next_max_id = null;
+        $id_ig_user = getSession()->get('id_ig_user');
 
         $response = $Validator->verifySession();
 
@@ -159,8 +176,6 @@ class Route_Streams {
             $params[] = 'stream';
             switch ($_GET['stream']) {
                 case 'user':
-                    if ('null' === $_GET['identifier'])
-                        $_GET['identifier'] = getSession()->get('id_ig_user');
                 case 'tag':
                 case 'location':
                     $params[] = 'identifier';
@@ -185,9 +200,6 @@ class Route_Streams {
                 $request_data['max_id'] = $_GET['max_id'];
 
             switch ($get['stream']) {
-                case 'popular':
-                    $r_getPhotos = $Instagram->getPhotosPopular($request_data);
-                    break;
                 case 'feed':
                     $r_getPhotos = $Instagram->getUserPhotosFeed($request_data);
                     break;
@@ -195,15 +207,21 @@ class Route_Streams {
                     $r_getPhotos = $Instagram->getUserPhotosLiked($request_data);
                     $next_max_key = 'next_max_like_id';
                     break;
-                case 'user':
-                    $r_getPhotos = $Instagram->getUserPhotosRecent($get['identifier'], $request_data);
+                case 'location':
+                    $r_getPhotos = $Instagram->getLocationPhotosRecent($get['identifier'], $request_data);
+                    break;
+                case 'popular':
+                    $r_getPhotos = $Instagram->getPhotosPopular($request_data);
+                    break;
+                case 'self':
+                    $r_getPhotos = $Instagram->getUserPhotosRecent('self', $request_data);
                     break;
                 case 'tag':
                     $r_getPhotos = $Instagram->getTagPhotosRecent($get['identifier'], $request_data);
                     $next_max_key = 'next_max_tag_id';
                     break;
-                case 'location':
-                    $r_getPhotos = $Instagram->getLocationPhotosRecent($get['identifier'], $request_data);
+                case 'user':
+                    $r_getPhotos = $Instagram->getUserPhotosRecent($get['identifier'], $request_data);
                     break;
             }
 
@@ -212,8 +230,12 @@ class Route_Streams {
                 $response['message'] = t('error001') . $r_getPhotos['meta']['error_message'];
             } else {
                 $photos_data = $DataCleaner->photoFeed($r_getPhotos['data']);
+
                 if (isset($r_getPhotos['pagination'][$next_max_key]))
                     $next_max_id = $r_getPhotos['pagination'][$next_max_key];
+
+                if (empty($request_data['max_id']))
+                    $MC_Streams->updateStream($get['stream'], $get['identifier'], array('thumbnail' => $DataCleaner->thumbnail($photos_data)));
             }
         }
 
@@ -221,8 +243,9 @@ class Route_Streams {
             $response['success'] = true;
             $response['message'] = t('ok005');
             $response['stream'] = $get['stream'];
-            $response['photos_data'] = $photos_data;
+            $response['identifier'] = $get['identifier'];
             $response['next_max_id'] = $next_max_id;
+            $response['photos_data'] = $photos_data;
         }
 
         return $response;

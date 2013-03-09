@@ -50,7 +50,7 @@ class DB_Streams_Subscribers {
         }
         
         if (empty($response)) {
-            $streams_data = getDatabase()->all('SELECT * FROM ' . $this->_name . ' LEFT JOIN streams ON (' . $this->_name . '.id_stream = streams.id_stream) WHERE ' . $this->_name . '.id_subscriber=:id_subscriber ORDER BY label ASC', array(':id_subscriber' => $id_subscriber));
+            $streams_data = getDatabase()->all('SELECT * FROM ' . $this->_name . ' LEFT JOIN streams ON (' . $this->_name . '.id_stream = streams.id_stream) WHERE ' . $this->_name . '.id_subscriber=:id_subscriber ORDER BY title ASC', array(':id_subscriber' => $id_subscriber));
 
             $response['success'] = true;
             $response['message'] = t('ok011') . $id_subscriber;
