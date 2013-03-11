@@ -37,16 +37,4 @@ class DB_Sessions {
         return $response;
     }
 
-    public function select() {
-        
-    }
-
-    public function update() {
-        
-    }
-
-    public function delete() {
-        
-    }
-
 }

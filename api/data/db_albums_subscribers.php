@@ -3,86 +3,71 @@
 class DB_Albums_Subscribers {
 
     protected $_name = 'albums_subscribers';
-    
+
     public function insert($DATA) {
-        include_once Epi::getPath('lib') . 'validator.php';
-
-        $Validator = new Validator();
-
         $response = array();
-        $data = array();
 
-        if (empty($response)) {
-            $r_getDataParams = $Validator->getDataParams(array(
-                'id_album', 'id_subscriber'
-                    ), $DATA);
+        $id_album = (int) $DATA['id_album'];
+        if (empty($response) && empty($id_album)) {
+            $response['success'] = false;
+            $response['message'] = t('error003') . "ID_ALBUM " . t('txt003') . "DB_Albums_Subscribers->insert()";
+        }
 
-            if (!$r_getDataParams['success']) {
-                $response = $r_getDataParams;
-            } else {
-                $data = $r_getDataParams['data'];
-            }
+        $id_subscriber = (int) $DATA['id_subscriber'];
+        if (empty($response) && empty($id_subscriber)) {
+            $response['success'] = false;
+            $response['message'] = t('error003') . "ID_SUBSCRIBER " . t('txt003') . "DB_Albums_Subscribers->insert()";
         }
 
         if (empty($response)) {
-            $album_subscriber = getDatabase()->one('SELECT * FROM ' . $this->_name . ' WHERE id_album=:id_album AND  id_subscriber=:id_subscriber', $data);
+            $select_data = array(
+                'id_album' => $id_album,
+                'id_subscriber' => $id_subscriber
+            );
+            $albums_subscribers_data = getDatabase()->one(
+                    'SELECT * FROM ' . $this->_name . ' WHERE id_album=:id_album AND  id_subscriber=:id_subscriber', $select_data
+            );
 
-            if (empty($album_subscriber)) {
+            if (empty($albums_subscribers_data)) {
+                $insert_data = array(
+                    'id_album' => $id_album,
+                    'id_subscriber' => $id_subscriber
+                );
                 getDatabase()->execute(
-                        'INSERT INTO ' . $this->_name . '(id_album, id_subscriber) VALUES(:id_album, :id_subscriber)', $data
+                        'INSERT INTO ' . $this->_name . '(id_album, id_subscriber) VALUES(:id_album, :id_subscriber)', $insert_data
                 );
             }
-            
+
             $response['success'] = true;
             $response['message'] = t('ok019');
         }
-        
+
         return $response;
     }
-    
-    public function select($ID_SUBSCRIBER){
+
+    public function select($ID_SUBSCRIBER) {
         $response = array();
-        
+
         $id_subscriber = (int) $ID_SUBSCRIBER;
         if (empty($response) && empty($id_subscriber)) {
             $response['success'] = false;
-            $response['message'] = t('error003') . "ID_SUBSCRIBER ". t('txt003') . "DB_Albums_Subscribers->select()";
+            $response['message'] = t('error003') . "ID_SUBSCRIBER " . t('txt003') . "DB_Albums_Subscribers->select()";
         }
-        
+
         if (empty($response)) {
-            $albums_data = getDatabase()->all('SELECT * FROM ' . $this->_name . ' LEFT JOIN albums ON (' . $this->_name . '.id_album = albums.id_album) WHERE ' . $this->_name . '.id_subscriber=:id_subscriber ORDER BY title ASC', array(':id_subscriber' => $id_subscriber));
+            $select_data = array(
+                'id_subscriber' => $id_subscriber
+            );
+            $albums_subscribers_ids = getDatabase()->all(
+                    'SELECT * FROM ' . $this->_name . ' WHERE id_subscriber=:id_subscriber', $select_data
+            );
 
             $response['success'] = true;
             $response['message'] = t('ok020') . $id_subscriber;
-            $response['albums_data'] = $albums_data;
+            $response['albums_subscribers_ids'] = $albums_subscribers_ids;
         }
-        
+
         return $response;
     }
-//    
-//    public function delete($ID_STREAM, $ID_SUBSCRIBER){
-//        $response = array();
-//        
-//        $id_stream = (int) $ID_STREAM;
-//        if (empty($response) && empty($id_stream)) {
-//            $response['success'] = false;
-//            $response['message'] = t('error003') . "ID_STREAM ". t('txt003') . "DB_Streams_Subscribers->delete()";
-//        }
-//        
-//        $id_subscriber = (int) $ID_SUBSCRIBER;
-//        if (empty($response) && empty($id_subscriber)) {
-//            $response['success'] = false;
-//            $response['message'] = t('error003') . "ID_SUBSCRIBER ". t('txt003') . "DB_Streams_Subscribers->delete()";
-//        }
-//        
-//        if (empty($response)) {
-//            $streams_data = getDatabase()->execute('DELETE FROM ' . $this->_name . ' WHERE id_stream=:id_stream AND id_subscriber=:id_subscriber', array(':id_stream' => $id_stream, ':id_subscriber' => $id_subscriber));
-//
-//            $response['success'] = true;
-//            $response['message'] = t('ok012') . $id_stream;
-//        }
-//        
-//        return $response;
-//    }
-    
+
 }

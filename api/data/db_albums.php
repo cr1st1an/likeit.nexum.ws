@@ -5,28 +5,21 @@ class DB_Albums {
     protected $_name = 'albums';
 
     public function insert($DATA) {
-        include_once Epi::getPath('lib') . 'validator.php';
-
-        $Validator = new Validator();
-
         $response = array();
-        $data = array();
 
-        if (empty($response)) {
-            $r_getDataParams = $Validator->getDataParams(array(
-                'title'
-                    ), $DATA);
-
-            if (!$r_getDataParams['success']) {
-                $response = $r_getDataParams;
-            } else {
-                $data = $r_getDataParams['data'];
-            }
+        $title = $DATA['title'];
+        if (empty($response) && empty($title)) {
+            $response['success'] = false;
+            $response['message'] = t('error003') . "TITLE " . t('txt003') . "DB_Albums->insert()";
         }
 
         if (empty($response)) {
+            $insert_data = array(
+                'title' => $title
+            );
+
             $id_album = getDatabase()->execute(
-                    'INSERT INTO ' . $this->_name . '(title) VALUES(:title)', $data
+                    'INSERT INTO ' . $this->_name . '(title) VALUES(:title)', $insert_data
             );
 
             $response['success'] = true;
@@ -36,36 +29,38 @@ class DB_Albums {
 
         return $response;
     }
-//
-//    public function selectWhereStreamIdentifier($STREAM, $IDENTIFIER) {
-//        $response = array();
-//
-//        $stream = $STREAM;
-//        if (empty($response) && empty($stream)) {
-//            $response['success'] = false;
-//            $response['message'] = t('error003') . "STREAM " . t('txt003') . "DB_Streams->selectWhereStreamIdentifier()";
-//        }
-//
-//        $identifier = $IDENTIFIER;
-//        if (empty($response) && empty($identifier)) {
-//            $response['success'] = false;
-//            $response['message'] = t('error003') . "IDENTIFIER " . t('txt003') . "DB_Streams->selectWhereStreamIdentifier()";
-//        }
-//
-//        if (empty($response)) {
-//            $stream = getDatabase()->one('SELECT * FROM ' . $this->_name . ' WHERE stream=:stream AND  identifier=:identifier', array(':stream' => $stream, ':identifier' => $identifier));
-//
-//            if (empty($stream)) {
-//                $response['success'] = false;
-//                $response['message'] = t('error007') . $stream . ' ' . $identifier;
-//            } else {
-//                $response['success'] = true;
-//                $response['message'] = t('ok007') . $stream . ' ' . $identifier;
-//                $response['stream_data'] = $stream;
-//            }
-//        }
-//
-//        return $response;
-//    }
+
+    public function select($ID_ALBUM) {
+        $response = array();
+        $album_data = array();
+
+        $id_album = (int) $ID_ALBUM;
+        if (empty($response) && empty($id_album)) {
+            $response['success'] = false;
+            $response['message'] = t('error003') . "ID_ALBUM " . t('txt003') . "DB_Albums->select()";
+        }
+
+        if (empty($response)) {
+            $select_data = array(
+                'id_album' => $id_album
+            );
+            $album_data = getDatabase()->one(
+                    'SELECT * FROM ' . $this->_name . ' WHERE id_album=:id_album', $select_data
+            );
+
+            if (empty($album_data)) {
+                $response['success'] = false;
+                $response['message'] = t('error010') . $id_album;
+            }
+        }
+
+        if (empty($response)) {
+            $response['success'] = true;
+            $response['message'] = t('ok030') . $id_album;
+            $response['album_data'] = $album_data;
+        }
+
+        return $response;
+    }
     
 }

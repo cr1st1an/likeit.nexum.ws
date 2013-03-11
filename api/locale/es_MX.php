@@ -31,6 +31,12 @@ $lang = array(
     'ok024' => "La foto se ha guardado con éxito.",
     'ok025' => "Aquí está la información del album.",
     'ok026' => "El album se ha actualizado con éxito.",
+    'ok027' => "Aquí está el stream.",
+    'ok028' => "Aquí está el id.",
+    'ok029' => "Actualizamos el id con éxito.",
+    'ok030' => "Aquí está el album.",
+    'ok031' => "Eliminamos la relación entre album y media.",
+    'ok032' => "Eliminamos el like.",
     
     'error001' => "Problema con el servidor de Instagram.",
     'error002' => "Problema al guardar subscriptor.",
@@ -42,4 +48,5 @@ $lang = array(
     'error008' => "No cuentas con autorización para modificar este album.",
     'error009' => "No encontramos la foto.",
     'error010' => "No encontramos el album.",
+    'error011' => "No encontramos el id.",
 );

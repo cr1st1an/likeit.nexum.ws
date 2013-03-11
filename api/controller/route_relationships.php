@@ -12,10 +12,11 @@ class Route_Relationships {
         $response = array();
         
         $response = $Validator->verifySession();
+        $access_token = getSession()->get('access_token');
         
         if (empty($response)) {
             $request_data = array();
-            $request_data['access_token'] = getSession()->get('access_token');
+            $request_data['access_token'] = $access_token;
             $request_data['action'] = 'unfollow';
             
             $r_postUserRelationship = $Instagram->postUserRelationship($ID_IG_OTHER_USER, $request_data);
@@ -43,7 +44,6 @@ class Route_Relationships {
         
         $response = array();
         $get = array();
-        $id_ig_user = getSession()->get('ig_ig_user');
         $access_token = getSession()->get('access_token');
         
         $response = $Validator->verifySession();
@@ -51,10 +51,10 @@ class Route_Relationships {
         if (empty($response)) {
             $r_getGetParams = $Validator->getGetParams(array('id_ig_other_user'));
 
-            if (!$r_getGetParams['success']) {
-                $response = $r_getGetParams;
-            } else {
+            if ($r_getGetParams['success']) {
                 $get = $r_getGetParams['get'];
+            } else {
+                $response = $r_getGetParams;
             }
         }
         
@@ -94,22 +94,23 @@ class Route_Relationships {
 
         $response = array();
         $post = array();
+        $access_token = getSession()->get('access_token');
         
         $response = $Validator->verifySession();
 
         if (empty($response)) {
             $r_getPostParams = $Validator->getPostParams(array('id_ig_other_user'));
 
-            if (!$r_getPostParams['success']) {
-                $response = $r_getPostParams;
-            } else {
+            if ($r_getPostParams['success']) {
                 $post = $r_getPostParams['post'];
+            } else {
+                $response = $r_getPostParams;
             }
         }
 
         if (empty($response)) {
             $request_data = array();
-            $request_data['access_token'] = getSession()->get('access_token');
+            $request_data['access_token'] = $access_token;
             $request_data['action'] = 'follow';
             
             $r_postUserRelationship = $Instagram->postUserRelationship($post['id_ig_other_user'], $request_data);

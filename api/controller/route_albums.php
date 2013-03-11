@@ -7,8 +7,7 @@ class Route_Albums {
         include_once Epi::getPath('data') . 'mc_ig_media.php';
         include_once Epi::getPath('data') . 'db_albums_ig_media.php';
         include_once Epi::getPath('data') . 'db_albums_subscribers.php';
-        include_once Epi::getPath('lib') . 'data_cleaner.php';
-        include_once Epi::getPath('lib') . 'instagram.php';
+        include_once Epi::getPath('lib') . 'data_handler.php';
         include_once Epi::getPath('lib') . 'validator.php';
 
         $MC_Albums = new MC_Albums();
@@ -16,13 +15,14 @@ class Route_Albums {
         $DB_Albums_IG_Media = new DB_Albums_IG_Media();
         $DB_Albums_Subscribers = new DB_Albums_Subscribers();
 
-        $DataCleaner = new DataCleaner();
-        $Instagram = new Instagram();
+        $DataHandler = new DataHandler();
         $Validator = new Validator();
 
         $response = array();
         $id_subscriber = getSession()->get('id_subscriber');
         $id_album = null;
+        $albums_subscribers_ids = array();
+        $albums_ig_media_ids = array();
         $albums_data = array();
 
         $response = $Validator->verifySession();
@@ -30,21 +30,22 @@ class Route_Albums {
         if (empty($response)) {
             $r_select = $DB_Albums_Subscribers->select($id_subscriber);
 
-            if (!$r_select['success']) {
+            if ($r_select['success']) {
+                $albums_subscribers_ids = $r_select['albums_subscribers_ids'];
+            } else {
                 $response = $r_select;
             }
         }
 
         if (empty($response)) {
-            $albums_data = $r_select['albums_data'];
-            
-            foreach ($albums_data as $id => $album_data) {
-                $r_getAlbum = $MC_Albums->getAlbum($album_data['id_album']);
+            foreach ($albums_subscribers_ids as $album_subscriber_ids) {
+                $r_getAlbum = $MC_Albums->getAlbum($album_subscriber_ids['id_album']);
+
                 if ($r_getAlbum['success']) {
-                    $albums_data[$id]['thumbnail'] = $r_getAlbum['album_data']['thumbnail'];
+                    $albums_data[] = $r_getAlbum['album_data'];
                 }
 
-                if ($_GET['id_album'] === $album_data['id_album']) {
+                if ($_GET['id_album'] === $album_subscriber_ids['id_album']) {
                     $id_album = $_GET['id_album'];
                 }
             }
@@ -58,37 +59,38 @@ class Route_Albums {
 
         if (empty($response)) {
             $r_select = $DB_Albums_IG_Media->select($id_album);
-
-            if (!$r_select['success']) {
+            if ($r_select['success']) {
+                $albums_ig_media_ids = $r_select['albums_ig_media_ids'];
+            } else {
                 $response = $r_select;
             }
         }
 
         if (empty($response)) {
-            $ids_data = $r_select['ids_data'];
-            $photos_data = array();
+            $media_data = array();
+            $request_data = array();
+            $request_data['access_token'] = getSession()->get('access_token');
 
-            foreach ($ids_data as $id => $id_data) {
-                $r_getPhoto_1 = $MC_IG_Media->getPhoto($id_data['id_ig_media']);
-                if ($r_getPhoto_1['success']) {
-                    $photos_data[] = $r_getPhoto_1['photo_data'];
-                } else {
-                    $request_data = array();
-                    $request_data['access_token'] = getSession()->get('access_token');
-                    $r_getPhoto_2 = $Instagram->getPhoto($id_data['id_ig_media'], $request_data);
-                    if (200 === $r_getPhoto_2['meta']['code']) {
-                        $photos_data[] = $r_getPhoto_2['data'];
-                        $MC_IG_Media->setPhoto($id_data['id_ig_media'], $r_getPhoto_2['data']);
-                    }
+            foreach ($albums_ig_media_ids as $album_ig_media_ids) {
+                $r_getMedia = $MC_IG_Media->getMedia($album_ig_media_ids['id_ig_media'], $request_data);
+
+                if ($r_getMedia['success']) {
+                    $media_data[] = $r_getMedia['media_data'];
                 }
             }
 
-            $photos_data = $DataCleaner->photoFeed($photos_data);
+
+            $update_data = array(
+                'thumbnail' => $DataHandler->thumbnail($media_data)
+            );
+            $MC_Albums->updateAlbum($id_album, $update_data);
+
+            $media_data = $DataHandler->mediaFeed($media_data);
 
             $response['success'] = true;
             $response['message'] = t('ok022');
             $response['id_album'] = $id_album;
-            $response['photos_data'] = $photos_data;
+            $response['media_data'] = $media_data;
             $response['albums_data'] = $albums_data;
         }
 
@@ -108,17 +110,17 @@ class Route_Albums {
         $response = array();
         $post = array();
         $id_subscriber = getSession()->get('id_subscriber');
-        $album_data = array();
+        $id_album = null;
 
         $response = $Validator->verifySession();
 
         if (empty($response)) {
             $r_getPostParams = $Validator->getPostParams(array('title'));
 
-            if (!$r_getPostParams['success']) {
-                $response = $r_getPostParams;
-            } else {
+            if ($r_getPostParams['success']) {
                 $post = $r_getPostParams['post'];
+            } else {
+                $response = $r_getPostParams;
             }
         }
 
@@ -128,16 +130,16 @@ class Route_Albums {
             );
             $r_insert_1 = $DB_Albums->insert($album_data);
 
-            if (!$r_insert_1['success']) {
-                $response = $r_insert;
+            if ($r_insert_1['success']) {
+                $id_album = $r_insert_1['id_album'];
             } else {
-                $album_data['id_album'] = $r_insert_1['id_album'];
+                $response = $r_insert;
             }
         }
 
         if (empty($response)) {
             $album_subscriber_data = array(
-                'id_album' => $album_data['id_album'],
+                'id_album' => $id_album,
                 'id_subscriber' => $id_subscriber
             );
             $r_insert_2 = $DB_Albums_Subscribers->insert($album_subscriber_data);
@@ -149,20 +151,19 @@ class Route_Albums {
 
         if (empty($response)) {
             $response['success'] = true;
-            $response['message'] = t('ok008');
-            $response['album_data'] = $album_data;
+            $response['message'] = t('ok018');
         }
 
         return $response;
     }
 
-    public function postPhoto() {
+    public function postMedia() {
         include_once Epi::getPath('data') . 'mc_albums.php';
         include_once Epi::getPath('data') . 'mc_ig_media.php';
         include_once Epi::getPath('data') . 'db_albums_subscribers.php';
         include_once Epi::getPath('data') . 'db_albums_ig_media.php';
-        include_once Epi::getPath('lib') . 'data_cleaner.php';
-        include_once Epi::getPath('lib') . 'instagram.php';
+        include_once Epi::getPath('data') . 'db_likes.php';
+        include_once Epi::getPath('lib') . 'data_handler.php';
         include_once Epi::getPath('lib') . 'validator.php';
 
         $MC_Albums = new MC_Albums();
@@ -170,40 +171,40 @@ class Route_Albums {
 
         $DB_Albums_Subscribers = new DB_Albums_Subscribers();
         $DB_Albums_IG_Media = new DB_Albums_IG_Media();
+        $DB_Likes = new DB_Likes();
 
-        $DataCleaner = new DataCleaner();
-        $Instagram = new Instagram();
+        $DataHandler = new DataHandler();
         $Validator = new Validator();
 
         $response = array();
         $post = array();
         $id_subscriber = getSession()->get('id_subscriber');
-        $albums_data = array();
+        $albums_subscribers_ids = array();
         $is_subscribed = false;
 
         $response = $Validator->verifySession();
 
         if (empty($response)) {
             $r_getPostParams = $Validator->getPostParams(array('id_album', 'id_ig_media'));
-            if (!$r_getPostParams['success']) {
-                $response = $r_getPostParams;
-            } else {
+            if ($r_getPostParams['success']) {
                 $post = $r_getPostParams['post'];
+            } else {
+                $response = $r_getPostParams;
             }
         }
 
         if (empty($response)) {
             $r_select = $DB_Albums_Subscribers->select($id_subscriber);
-            if (!$r_select['success']) {
-                $response = $r_select;
+            if ($r_select['success']) {
+                $albums_subscribers_ids = $r_select['albums_subscribers_ids'];
             } else {
-                $albums_data = $r_select['albums_data'];
+                $response = $r_select;
             }
         }
 
         if (empty($response)) {
-            foreach ($albums_data as $album_data) {
-                if ($post['id_album'] === $album_data['id_album'])
+            foreach ($albums_subscribers_ids as $album_subscriber_ids) {
+                if ($post['id_album'] === $album_subscriber_ids['id_album'])
                     $is_subscribed = true;
             }
 
@@ -226,29 +227,86 @@ class Route_Albums {
         }
 
         if (empty($response)) {
-            $photos_data = array();
-            $r_getPhoto_1 = $MC_IG_Media->getPhoto($post['id_ig_media']);
+            $request_data = array();
+            $request_data['access_token'] = getSession()->get('access_token');
 
-            if ($r_getPhoto_1['success']) {
-                $photos_data[] = $r_getPhoto_1['photo_data'];
-            } else {
-                $request_data = array();
-                $request_data['access_token'] = getSession()->get('access_token');
-                $r_getPhoto_2 = $Instagram->getPhoto($post['id_ig_media'], $request_data);
-                if (200 === $r_getPhoto_2['meta']['code']) {
-                    $photos_data[] = $r_getPhoto_2['data'];
-                    $MC_IG_Media->setPhoto($post['id_ig_media'], $r_getPhoto_2['data']);
-                }
+            $r_getMedia = $MC_IG_Media->getMedia($post['id_ig_media'], $request_data);
+            if ($r_getMedia['success']) {
+                $update_data = array(
+                    'thumbnail' => $DataHandler->thumbnail(array($r_getMedia['media_data']))
+                );
+                $MC_Albums->updateAlbum($post['id_album'], $update_data);
             }
-
-            $photos_data = $DataCleaner->photoFeed($photos_data);
-            $MC_Albums->updateAlbum($post['id_album'], array('thumbnail' => $DataCleaner->thumbnail($photos_data)));
-
+            
+            
+            $insert_data = array(
+                'id_subscriber' => $id_subscriber,
+                'id_ig_media' => $post['id_ig_media'],
+                'id_album' => $post['id_album']
+            );
+            $DB_Likes->insert($insert_data);
+            
             $response['success'] = true;
             $response['message'] = t('ok021');
         }
 
         return $response;
     }
+    
+    public function deleteMedia($ID_ALBUM, $ID_IG_MEDIA) {
+        include_once Epi::getPath('data') . 'db_albums_subscribers.php';
+        include_once Epi::getPath('data') . 'db_albums_ig_media.php';
+        include_once Epi::getPath('data') . 'db_likes.php';
+        include_once Epi::getPath('lib') . 'validator.php';
+        
+        $DB_Albums_Subscribers = new DB_Albums_Subscribers();
+        $DB_Albums_IG_Media = new DB_Albums_IG_Media();
+        $DB_Likes = new DB_Likes();
+        
+        $Validator = new Validator();
+        
+        $response = array();
+        $post = array();
+        $id_subscriber = getSession()->get('id_subscriber');
+        $albums_subscribers_ids = array();
+        $is_subscribed = false;
+        
+        $response = $Validator->verifySession();
+        
+        if (empty($response)) {
+            $r_select = $DB_Albums_Subscribers->select($id_subscriber);
+            if ($r_select['success']) {
+                $albums_subscribers_ids = $r_select['albums_subscribers_ids'];
+            } else {
+                $response = $r_select;
+            }
+        }
 
+        if (empty($response)) {
+            foreach ($albums_subscribers_ids as $album_subscriber_ids) {
+                if ($ID_ALBUM === $album_subscriber_ids['id_album'])
+                    $is_subscribed = true;
+            }
+
+            if (!$is_subscribed) {
+                $response['success'] = false;
+                $response['message'] = t('error008');
+            }
+        }
+        
+        if (empty($response)) {
+            $r_delete = $DB_Albums_IG_Media->delete($ID_ALBUM, $ID_IG_MEDIA);
+            
+            if (!$r_delete['success']) {
+                $response = $r_delete;
+            }
+        }
+        
+        if (empty($response)) {
+            $response = $DB_Likes->delete($id_subscriber, $ID_IG_MEDIA, $ID_ALBUM);
+        }
+        
+        return $response;
+    }
+    
 }

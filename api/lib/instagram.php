@@ -63,15 +63,15 @@ class Instagram {
         return json_decode($this->_curl_client->post(self::API_URL . '/users/'.$ID.'/relationship', $DATA), true);
     }
 
-    public function getUserPhotosFeed($DATA) {
+    public function getUserMediaFeed($DATA) {
         return json_decode($this->_curl_client->get(self::API_URL . '/users/self/feed', $DATA), true);
     }
     
-    public function getUserPhotosRecent($ID, $DATA) {
+    public function getUserMediaRecent($ID, $DATA) {
         return json_decode($this->_curl_client->get(self::API_URL . '/users/'.$ID.'/media/recent', $DATA), true);
     }
 
-    public function getUserPhotosLiked($DATA) {
+    public function getUserMediaLiked($DATA) {
         if(isset($DATA['max_id']))
             $DATA['max_like_id'] = $DATA['max_id'];
         return json_decode($this->_curl_client->get(self::API_URL . '/users/self/media/liked', $DATA), true);
@@ -81,39 +81,39 @@ class Instagram {
         return json_decode($this->_curl_client->get(self::API_URL . '/users/search', $DATA), true);
     }
 
-    public function getPhotosNear() {
+    public function getMediaNear() {
         
     }
 
-    public function getPhotosPopular($DATA) {
+    public function getMediaPopular($DATA) {
         return json_decode($this->_curl_client->get(self::API_URL . '/media/popular', $DATA), true);
     }
 
-    public function getPhoto($ID, $DATA) {
+    public function getMedia($ID, $DATA) {
         return json_decode($this->_curl_client->get(self::API_URL . '/media/'.$ID, $DATA), true);
     }
 
-    public function getPhotoComments() {
+    public function getMediaComments() {
         
     }
 
-    public function postPhotoComment() {
+    public function postMediaComment() {
         
     }
 
-    public function deletePhotoComment() {
+    public function deleteMediaComment() {
         
     }
 
-    public function getPhotoLikes() {
+    public function getMediaLikes() {
         
     }
 
-    public function postPhotoLike($ID, $DATA) {
+    public function postMediaLike($ID, $DATA) {
         return json_decode($this->_curl_client->post(self::API_URL . '/media/'.$ID.'/likes', $DATA), true);
     }
     
-    public function deletePhotoLike($ID, $DATA) {
+    public function deleteMediaLike($ID, $DATA) {
         return json_decode($this->_curl_client->delete(self::API_URL . '/media/'.$ID.'/likes', $DATA), true);
     }
 
@@ -121,7 +121,7 @@ class Instagram {
         
     }
 
-    public function getTagPhotosRecent($NAME, $DATA) {
+    public function getTagMediaRecent($NAME, $DATA) {
         if(isset($DATA['max_id']))
             $DATA['max_tag_id'] = $DATA['max_id'];
         return json_decode($this->_curl_client->get(self::API_URL . '/tags/'.$NAME.'/media/recent', $DATA), true);
@@ -135,7 +135,7 @@ class Instagram {
         
     }
 
-    public function getLocationPhotosRecent($ID, $DATA) {
+    public function getLocationMediaRecent($ID, $DATA) {
         return json_decode($this->_curl_client->get(self::API_URL . '/locations/'.$ID.'/media/recent', $DATA), true);
     }
 
@@ -143,7 +143,7 @@ class Instagram {
         return json_decode($this->_curl_client->get(self::API_URL . '/locations/search', $DATA), true);
     }
 
-    public function getGeoPhotosRecent() {
+    public function getGeoMediaRecent() {
         
     }
 

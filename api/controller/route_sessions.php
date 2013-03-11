@@ -21,12 +21,12 @@ class Route_Sessions {
         $id_subscriber = '';
 
         if (empty($response)) {
-            $r_getPostParams_1 = $Validator->getPostParams(array('client', 'version', 'id_install', 'code'));
+            $r_getPostParams = $Validator->getPostParams(array('client', 'version', 'id_install', 'code'));
 
-            if (!$r_getPostParams_1['success']) {
-                $response = $r_getPostParams_1;
+            if ($r_getPostParams['success']) {
+                $post = $r_getPostParams['post'];
             } else {
-                $post = $r_getPostParams_1['post'];
+                $response = $r_getPostParams;
             }
         }
 
@@ -43,20 +43,19 @@ class Route_Sessions {
         }
 
         if (empty($response)) {
-            $r_selectWhereIdInstagram = $DB_Subscribers->selectWhereIdIG($instagram_user['id']);
-            if (!$r_selectWhereIdInstagram['success']) {
-                $r_insertValuesIdInstagram = $DB_Subscribers->insertValuesIdIG($instagram_user['id']);
-                if (!$r_insertValuesIdInstagram['success']) {
-                    $response['success'] = false;
-                    $response['message'] = t('error002') . $instagram_user['id'];
-                } else {
-                    $id_subscriber = $r_insertValuesIdInstagram['id_subscriber'];
-                }
+            $r_insert = $DB_Subscribers->insert(
+                    array(
+                        'id_ig_user' => $instagram_user['id']
+                    )
+            );
+            if ($r_insert['success']) {
+                $id_subscriber = $r_insert['id_subscriber'];
             } else {
-                $id_subscriber = $r_selectWhereIdInstagram['subscriber_data']['id_subscriber'];
+                $response['success'] = false;
+                $response['message'] = t('error002') . $instagram_user['id'];
             }
         }
-
+        
         if (empty($response)) {
             $session_data = array(
                 'id_subscriber' => $id_subscriber,
