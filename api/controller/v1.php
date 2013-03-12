@@ -26,6 +26,9 @@ getApi()->post('/v1/albums', array('Route_Albums', 'postRoot'), EpiApi::external
 getApi()->post('/v1/albums/media', array('Route_Albums', 'postMedia'), EpiApi::external);
 getApi()->delete('/v1/albums/media/(\w+)/(\w+)', array('Route_Albums', 'deleteMedia'), EpiApi::external);
 
+include_once Epi::getPath('controller') . 'route_cron.php';
+getApi()->get('/v1/cron/MAR', array('Route_Cron', 'getMediaAlbumsReset'), EpiApi::external);
+
 function block() {
     return array(
         'success' => false,

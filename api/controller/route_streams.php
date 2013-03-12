@@ -318,7 +318,7 @@ class Route_Streams {
             }
 
             if (200 === $r_getResults['meta']['code']) {
-                $results_data = $DataHandler->searchResults($get['stream'], $r_getResults['data']);
+                $results_data =$r_getResults['data'];
             } else {
                 $response['success'] = false;
                 $response['message'] = t('error001') . $r_getResults['meta']['error_message'];
@@ -329,7 +329,7 @@ class Route_Streams {
             $response['success'] = true;
             $response['message'] = t('ok010');
             $response['stream'] = $get['stream'];
-            $response['results_data'] = $results_data;
+            $response['results_data'] = $DataHandler->searchResults($get['stream'], $results_data);
         }
 
         return $response;

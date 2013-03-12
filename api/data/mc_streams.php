@@ -4,7 +4,7 @@ class MC_Streams {
 
     protected $_name = 'Streams_';
 
-    public function getStream($ID_STREAM) {
+    public function getStream($ID_STREAM, $FETCH_SOURCE = true) {
         include_once Epi::getPath('data') . 'db_streams.php';
 
         $DB_Streams = new DB_Streams();
@@ -24,7 +24,7 @@ class MC_Streams {
             $cached_data = getCache()->get($key);
             if ($cached_data) {
                 $stream_data = $cached_data;
-            } else {
+            } else if($FETCH_SOURCE) {
                 $r_select = $DB_Streams->select($id_stream);
                 if ($r_select['success']) {
                     $stream_data = $r_select['stream_data'];
@@ -33,6 +33,9 @@ class MC_Streams {
                     $response['success'] = false;
                     $response['message'] = t('error007') . ' $id_stream: ' . $id_stream . ' [MEMCACHED]';
                 }
+            } else {
+                $response['success'] = false;
+                $response['message'] = t('error007') . ' $id_stream: ' . $id_stream . ' [MEMCACHED]';
             }
         }
 

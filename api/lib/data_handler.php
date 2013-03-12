@@ -12,9 +12,9 @@ class DataHandler {
     }
     
     public function mediaFeed($FEED_DATA) {
-        include_once Epi::getPath('data') . 'db_likes.php';
+        include_once Epi::getPath('data') . 'mc_likes.php';
         
-        $DB_Likes = new DB_Likes();
+        $MC_Likes = new MC_Likes();
         
         $media_data = array();
         $id_subscriber = getSession()->get('id_subscriber');
@@ -50,10 +50,10 @@ class DataHandler {
                 $media_data[$key]['likes']['data'][$key_like]['profile_picture'] = $data_like['profile_picture'];
             }
             
-            $r_selectLikes = $DB_Likes->select($id_subscriber, $data['id']);
+            $r_getAlbums = $MC_Likes->getAlbums($id_subscriber, $data['id'], false);
             
             $media_data[$key]['albums'] = array();
-            foreach($r_selectLikes['likes_data'] as $like_data){
+            foreach($r_getAlbums['likes_data'] as $like_data){
                 $media_data[$key]['albums'][] = $like_data['id_album'];
             }
         }

@@ -72,7 +72,7 @@ class Route_Albums {
             $request_data['access_token'] = getSession()->get('access_token');
 
             foreach ($albums_ig_media_ids as $album_ig_media_ids) {
-                $r_getMedia = $MC_IG_Media->getMedia($album_ig_media_ids['id_ig_media'], $request_data);
+                $r_getMedia = $MC_IG_Media->getMedia($album_ig_media_ids['id_ig_media'], true, $request_data);
 
                 if ($r_getMedia['success']) {
                     $media_data[] = $r_getMedia['media_data'];
@@ -84,13 +84,11 @@ class Route_Albums {
                 'thumbnail' => $DataHandler->thumbnail($media_data)
             );
             $MC_Albums->updateAlbum($id_album, $update_data);
-
-            $media_data = $DataHandler->mediaFeed($media_data);
-
+            
             $response['success'] = true;
             $response['message'] = t('ok022');
             $response['id_album'] = $id_album;
-            $response['media_data'] = $media_data;
+            $response['media_data'] = $DataHandler->mediaFeed($media_data);
             $response['albums_data'] = $albums_data;
         }
 
@@ -160,6 +158,7 @@ class Route_Albums {
     public function postMedia() {
         include_once Epi::getPath('data') . 'mc_albums.php';
         include_once Epi::getPath('data') . 'mc_ig_media.php';
+        include_once Epi::getPath('data') . 'mc_likes.php';
         include_once Epi::getPath('data') . 'db_albums_subscribers.php';
         include_once Epi::getPath('data') . 'db_albums_ig_media.php';
         include_once Epi::getPath('data') . 'db_likes.php';
@@ -168,10 +167,10 @@ class Route_Albums {
 
         $MC_Albums = new MC_Albums();
         $MC_IG_Media = new MC_IG_Media();
+        $MC_Likes = new MC_Likes();
 
         $DB_Albums_Subscribers = new DB_Albums_Subscribers();
         $DB_Albums_IG_Media = new DB_Albums_IG_Media();
-        $DB_Likes = new DB_Likes();
 
         $DataHandler = new DataHandler();
         $Validator = new Validator();
@@ -230,7 +229,7 @@ class Route_Albums {
             $request_data = array();
             $request_data['access_token'] = getSession()->get('access_token');
 
-            $r_getMedia = $MC_IG_Media->getMedia($post['id_ig_media'], $request_data);
+            $r_getMedia = $MC_IG_Media->getMedia($post['id_ig_media'],  true, $request_data);
             if ($r_getMedia['success']) {
                 $update_data = array(
                     'thumbnail' => $DataHandler->thumbnail(array($r_getMedia['media_data']))
@@ -238,13 +237,7 @@ class Route_Albums {
                 $MC_Albums->updateAlbum($post['id_album'], $update_data);
             }
             
-            
-            $insert_data = array(
-                'id_subscriber' => $id_subscriber,
-                'id_ig_media' => $post['id_ig_media'],
-                'id_album' => $post['id_album']
-            );
-            $DB_Likes->insert($insert_data);
+            $MC_Likes->insertAlbum($id_subscriber, $post['id_ig_media'], $post['id_album']);
             
             $response['success'] = true;
             $response['message'] = t('ok021');
@@ -254,19 +247,19 @@ class Route_Albums {
     }
     
     public function deleteMedia($ID_ALBUM, $ID_IG_MEDIA) {
+        include_once Epi::getPath('data') . 'mc_likes.php';
         include_once Epi::getPath('data') . 'db_albums_subscribers.php';
         include_once Epi::getPath('data') . 'db_albums_ig_media.php';
-        include_once Epi::getPath('data') . 'db_likes.php';
         include_once Epi::getPath('lib') . 'validator.php';
+        
+        $MC_Likes = new MC_Likes();
         
         $DB_Albums_Subscribers = new DB_Albums_Subscribers();
         $DB_Albums_IG_Media = new DB_Albums_IG_Media();
-        $DB_Likes = new DB_Likes();
         
         $Validator = new Validator();
         
         $response = array();
-        $post = array();
         $id_subscriber = getSession()->get('id_subscriber');
         $albums_subscribers_ids = array();
         $is_subscribed = false;
@@ -303,7 +296,7 @@ class Route_Albums {
         }
         
         if (empty($response)) {
-            $response = $DB_Likes->delete($id_subscriber, $ID_IG_MEDIA, $ID_ALBUM);
+            $response =  $MC_Likes->deleteAlbum($id_subscriber, $ID_IG_MEDIA, $ID_ALBUM);
         }
         
         return $response;

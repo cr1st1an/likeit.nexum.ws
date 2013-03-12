@@ -4,7 +4,7 @@ class MC_Albums {
 
     protected $_name = 'Albums_';
 
-    public function getAlbum($ID_ALBUM) {
+    public function getAlbum($ID_ALBUM, $FETCH_SOURCE = true) {
         include_once Epi::getPath('data') . 'db_albums.php';
 
         $DB_Albums = new DB_Albums();
@@ -24,7 +24,7 @@ class MC_Albums {
             $cached_data = getCache()->get($key);
             if ($cached_data) {
                 $album_data = $cached_data;
-            } else {
+            } else if ($FETCH_SOURCE) {
                 $r_select = $DB_Albums->select($id_album);
                 if ($r_select['success']) {
                     $album_data = $r_select['album_data'];
@@ -33,6 +33,9 @@ class MC_Albums {
                     $response['success'] = false;
                     $response['message'] = t('error010') . ' $id_album: ' . $id_album . ' [MEMCACHED]';
                 }
+            } else {
+                $response['success'] = false;
+                $response['message'] = t('error010') . ' $id_album: ' . $id_album . ' [MEMCACHED]';
             }
         }
 
@@ -59,7 +62,7 @@ class MC_Albums {
             $response['success'] = false;
             $response['message'] = t('error003') . "DATA " . t('txt003') . "MC_Albums->updateAlbum()";
         }
-        
+
         if (empty($response)) {
             $key = $this->_name . $id_album;
             $album_data = array();
@@ -77,7 +80,7 @@ class MC_Albums {
             $response['success'] = true;
             $response['message'] = t('ok026') . ' $id_album: ' . $id_album . ' [MEMCACHED]';
         }
-        
+
         return $response;
     }
 
