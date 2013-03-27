@@ -10,8 +10,9 @@ class Validator {
         if (empty($id_session)) {
             $response['success'] = false;
             $response['message'] = t('error006') . $id_session;
+            $response['trigger'] = 'login';
         }
-
+        
         return $response;
     }
 
@@ -21,11 +22,11 @@ class Validator {
 
         foreach ($KEYS as $key) {
             if (empty($response)) {
-                if (empty($_GET[$key])) {
+                if (isset($_GET[$key])) {
+                    $get[$key] = $_GET[$key];
+                } else {
                     $response['success'] = false;
                     $response['message'] = t('error003') . $key;
-                } else {
-                    $get[$key] = $_GET[$key];
                 }
             }
         }
@@ -45,11 +46,11 @@ class Validator {
 
         foreach ($KEYS as $key) {
             if (empty($response)) {
-                if (empty($_POST[$key])) {
+                if (isset($_POST[$key])) {
+                    $post[$key] = $_POST[$key];
+                } else {
                     $response['success'] = false;
                     $response['message'] = t('error003') . $key;
-                } else {
-                    $post[$key] = $_POST[$key];
                 }
             }
         }
@@ -63,32 +64,30 @@ class Validator {
         return $response;
     }
 
-    public function getDataParams($KEYS, $DATA) {
+    public function getPutParams($KEYS) {
         $response = array();
-        $data = array();
-
+        $put = array();
+        
+        parse_str(file_get_contents("php://input"), $_PUT);
+        
         foreach ($KEYS as $key) {
             if (empty($response)) {
-                if (empty($DATA[$key])) {
-                    if ('created' !== $key) {
-                        $response['success'] = false;
-                        $response['message'] = t('error003') . $key;
-                    } else {
-                        $data[':created'] = date("Y-m-d H:i:s");
-                    }
+                if (isset($_PUT[$key])) {
+                    $put[$key] = $_PUT[$key];
                 } else {
-                    $data[':' . $key] = $DATA[$key];
+                    $response['success'] = false;
+                    $response['message'] = t('error003') . $key;
                 }
             }
         }
-
+        
         if (empty($response)) {
             $response['success'] = true;
             $response['message'] = t('ok004');
-            $response['data'] = $data;
+            $response['put'] = $put;
         }
 
         return $response;
     }
-
+    
 }

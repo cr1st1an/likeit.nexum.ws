@@ -44,9 +44,9 @@ class Route_Relationships {
         
         $response = array();
         $get = array();
-        $access_token = getSession()->get('access_token');
         
         $response = $Validator->verifySession();
+        $access_token = getSession()->get('access_token');
         
         if (empty($response)) {
             $r_getGetParams = $Validator->getGetParams(array('id_ig_other_user'));
@@ -94,9 +94,9 @@ class Route_Relationships {
 
         $response = array();
         $post = array();
-        $access_token = getSession()->get('access_token');
         
         $response = $Validator->verifySession();
+        $access_token = getSession()->get('access_token');
 
         if (empty($response)) {
             $r_getPostParams = $Validator->getPostParams(array('id_ig_other_user'));

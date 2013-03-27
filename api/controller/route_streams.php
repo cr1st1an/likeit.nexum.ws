@@ -27,11 +27,11 @@ class Route_Streams {
         $Validator = new Validator();
 
         $response = array();
-        $id_subscriber = getSession()->get('id_subscriber');
         $streams_subscribers_ids = array();
         $streams_data = array();
 
         $response = $Validator->verifySession();
+        $id_subscriber = getSession()->get('id_subscriber');
 
         if (empty($response)) {
             $r_select = $DB_Streams_Subscribers->select($id_subscriber);
@@ -73,10 +73,10 @@ class Route_Streams {
         $response = array();
         $post = array();
         $id_stream = null;
-        $id_subscriber = getSession()->get('id_subscriber');
         $stream_data = array();
 
         $response = $Validator->verifySession();
+        $id_subscriber = getSession()->get('id_subscriber');
 
         if (empty($response)) {
             $r_getPostParams = $Validator->getPostParams(array('stream', 'identifier', 'title'));
@@ -133,9 +133,9 @@ class Route_Streams {
         $Validator = new Validator();
 
         $response = array();
-        $id_subscriber = getSession()->get('id_subscriber');
 
         $response = $Validator->verifySession();
+        $id_subscriber = getSession()->get('id_subscriber');
 
         if (empty($response)) {
             $response = $DB_Streams_Subscribers->delete($ID_STREAM, $id_subscriber);
@@ -157,30 +157,23 @@ class Route_Streams {
         $Validator = new Validator();
 
         $response = array();
-        $params = array();
         $get = array();
         $media_data = array();
         $next_max_key = 'next_max_id';
         $next_max_id = null;
-        $access_token = getSession()->get('access_token');
+        $id_stream = null;
 
         $response = $Validator->verifySession();
+        $access_token = getSession()->get('access_token');
 
         if (empty($response)) {
-
-            $params[] = 'stream';
-            switch ($_GET['stream']) {
-                case 'user':
-                case 'tag':
-                case 'location':
-                    $params[] = 'identifier';
-                    break;
-            }
-
-            $r_getGetParams = $Validator->getGetParams($params);
-
+            $r_getGetParams = $Validator->getGetParams(array('stream', 'identifier'));
+            
             if ($r_getGetParams['success']) {
                 $get = $r_getGetParams['get'];
+                
+                if('null' === $get['identifier'])
+                    $get['identifier'] = null;
             } else {
                 $response = $r_getGetParams;
             }
@@ -234,6 +227,7 @@ class Route_Streams {
             if (empty($_GET['max_id'])) {
                 $r_getId = $MC_Streams->getID($get['stream'], $get['identifier']);
                 if ($r_getId['success']) {
+                    $id_stream = $r_getId['id_stream'];
                     $update_data = array(
                         'thumbnail' => $DataHandler->thumbnail($media_data)
                     );
@@ -241,10 +235,16 @@ class Route_Streams {
                 }
             }
 
+            $stream_data = array(
+                'id_stream' => $id_stream,
+                'stream' => $get['stream'],
+                'identifier' => $get['identifier']
+            );
+
             $response['success'] = true;
             $response['message'] = t('ok005');
-            $response['stream'] = $get['stream'];
-            $response['identifier'] = $get['identifier'];
+            $response['origin'] = 'streams';
+            $response['stream_data'] = $stream_data;
             $response['next_max_id'] = $next_max_id;
             $response['media_data'] = $DataHandler->mediaFeed($media_data);
         }
@@ -265,9 +265,9 @@ class Route_Streams {
         $params = array();
         $get = array();
         $results_data = array();
-        $access_token = getSession()->get('access_token');
 
         $response = $Validator->verifySession();
+        $access_token = getSession()->get('access_token');
 
         if (empty($response)) {
 
@@ -318,7 +318,7 @@ class Route_Streams {
             }
 
             if (200 === $r_getResults['meta']['code']) {
-                $results_data =$r_getResults['data'];
+                $results_data = $r_getResults['data'];
             } else {
                 $response['success'] = false;
                 $response['message'] = t('error001') . $r_getResults['meta']['error_message'];

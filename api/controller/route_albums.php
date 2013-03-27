@@ -19,13 +19,13 @@ class Route_Albums {
         $Validator = new Validator();
 
         $response = array();
-        $id_subscriber = getSession()->get('id_subscriber');
         $id_album = null;
         $albums_subscribers_ids = array();
         $albums_ig_media_ids = array();
         $albums_data = array();
 
         $response = $Validator->verifySession();
+        $id_subscriber = getSession()->get('id_subscriber');
 
         if (empty($response)) {
             $r_select = $DB_Albums_Subscribers->select($id_subscriber);
@@ -45,7 +45,7 @@ class Route_Albums {
                     $albums_data[] = $r_getAlbum['album_data'];
                 }
 
-                if ($_GET['id_album'] === $album_subscriber_ids['id_album']) {
+                if (isset($_GET['id_album']) && $_GET['id_album'] === $album_subscriber_ids['id_album']) {
                     $id_album = $_GET['id_album'];
                 }
             }
@@ -84,9 +84,10 @@ class Route_Albums {
                 'thumbnail' => $DataHandler->thumbnail($media_data)
             );
             $MC_Albums->updateAlbum($id_album, $update_data);
-            
+
             $response['success'] = true;
             $response['message'] = t('ok022');
+            $response['origin'] = 'albums';
             $response['id_album'] = $id_album;
             $response['media_data'] = $DataHandler->mediaFeed($media_data);
             $response['albums_data'] = $albums_data;
@@ -107,10 +108,10 @@ class Route_Albums {
 
         $response = array();
         $post = array();
-        $id_subscriber = getSession()->get('id_subscriber');
         $id_album = null;
 
         $response = $Validator->verifySession();
+        $id_subscriber = getSession()->get('id_subscriber');
 
         if (empty($response)) {
             $r_getPostParams = $Validator->getPostParams(array('title'));
@@ -155,6 +156,95 @@ class Route_Albums {
         return $response;
     }
 
+    public function deleteRoot($ID_ALBUM) {
+        include_once Epi::getPath('data') . 'db_albums_subscribers.php';
+        include_once Epi::getPath('lib') . 'validator.php';
+
+        $DB_Albums_Subscribers = new DB_Albums_Subscribers();
+
+        $Validator = new Validator();
+
+        $response = array();
+
+        $response = $Validator->verifySession();
+        $id_subscriber = getSession()->get('id_subscriber');
+
+        if (empty($response)) {
+            $response = $DB_Albums_Subscribers->delete($ID_ALBUM, $id_subscriber);
+        }
+
+        return $response;
+    }
+
+    public function updateRoot($ID_ALBUM) {
+        include_once Epi::getPath('data') . 'mc_albums.php';
+        include_once Epi::getPath('data') . 'db_albums.php';
+        include_once Epi::getPath('data') . 'db_albums_subscribers.php';
+        include_once Epi::getPath('lib') . 'validator.php';
+        
+        $MC_Albums = new MC_Albums();
+        $DB_Albums = new DB_Albums();
+        $DB_Albums_Subscribers = new DB_Albums_Subscribers();
+
+        $Validator = new Validator();
+
+        $response = array();
+        $put = array();
+        $albums_subscribers_ids = array();
+        $is_subscribed = false;
+
+        $response = $Validator->verifySession();
+        $id_subscriber = getSession()->get('id_subscriber');
+
+        if (empty($response)) {
+            $r_getPutParams = $Validator->getPutParams(array('title'));
+
+            if ($r_getPutParams['success']) {
+                $put = $r_getPutParams['put'];
+            } else {
+                $response = $r_getPutParams;
+            }
+        }
+        
+        if (empty($response)) {
+            $r_select = $DB_Albums_Subscribers->select($id_subscriber);
+            if ($r_select['success']) {
+                $albums_subscribers_ids = $r_select['albums_subscribers_ids'];
+            } else {
+                $response = $r_select;
+            }
+        }
+
+        if (empty($response)) {
+            foreach ($albums_subscribers_ids as $album_subscriber_ids) {
+                if ($ID_ALBUM === $album_subscriber_ids['id_album'])
+                    $is_subscribed = true;
+            }
+
+            if (!$is_subscribed) {
+                $response['success'] = false;
+                $response['message'] = t('error008');
+            }
+        }
+        
+        if (empty($response)) {
+            $r_update = $DB_Albums->updateTitle($ID_ALBUM, $put['title']);
+            
+            if (!$r_update['success']) {
+                $response = $r_update;
+            }
+        }
+        
+        if (empty($response)) {
+            $update_data = array(
+                'title' => $put['title']
+            );
+            $response = $MC_Albums->updateAlbum($ID_ALBUM, $update_data);
+        }
+        
+        return $response;
+    }
+
     public function postMedia() {
         include_once Epi::getPath('data') . 'mc_albums.php';
         include_once Epi::getPath('data') . 'mc_ig_media.php';
@@ -177,11 +267,11 @@ class Route_Albums {
 
         $response = array();
         $post = array();
-        $id_subscriber = getSession()->get('id_subscriber');
         $albums_subscribers_ids = array();
         $is_subscribed = false;
 
         $response = $Validator->verifySession();
+        $id_subscriber = getSession()->get('id_subscriber');
 
         if (empty($response)) {
             $r_getPostParams = $Validator->getPostParams(array('id_album', 'id_ig_media'));
@@ -229,43 +319,43 @@ class Route_Albums {
             $request_data = array();
             $request_data['access_token'] = getSession()->get('access_token');
 
-            $r_getMedia = $MC_IG_Media->getMedia($post['id_ig_media'],  true, $request_data);
+            $r_getMedia = $MC_IG_Media->getMedia($post['id_ig_media'], true, $request_data);
             if ($r_getMedia['success']) {
                 $update_data = array(
                     'thumbnail' => $DataHandler->thumbnail(array($r_getMedia['media_data']))
                 );
                 $MC_Albums->updateAlbum($post['id_album'], $update_data);
             }
-            
+
             $MC_Likes->insertAlbum($id_subscriber, $post['id_ig_media'], $post['id_album']);
-            
+
             $response['success'] = true;
             $response['message'] = t('ok021');
         }
 
         return $response;
     }
-    
+
     public function deleteMedia($ID_ALBUM, $ID_IG_MEDIA) {
         include_once Epi::getPath('data') . 'mc_likes.php';
         include_once Epi::getPath('data') . 'db_albums_subscribers.php';
         include_once Epi::getPath('data') . 'db_albums_ig_media.php';
         include_once Epi::getPath('lib') . 'validator.php';
-        
+
         $MC_Likes = new MC_Likes();
-        
+
         $DB_Albums_Subscribers = new DB_Albums_Subscribers();
         $DB_Albums_IG_Media = new DB_Albums_IG_Media();
-        
+
         $Validator = new Validator();
-        
+
         $response = array();
-        $id_subscriber = getSession()->get('id_subscriber');
         $albums_subscribers_ids = array();
         $is_subscribed = false;
-        
+
         $response = $Validator->verifySession();
-        
+        $id_subscriber = getSession()->get('id_subscriber');
+
         if (empty($response)) {
             $r_select = $DB_Albums_Subscribers->select($id_subscriber);
             if ($r_select['success']) {
@@ -286,20 +376,20 @@ class Route_Albums {
                 $response['message'] = t('error008');
             }
         }
-        
+
         if (empty($response)) {
             $r_delete = $DB_Albums_IG_Media->delete($ID_ALBUM, $ID_IG_MEDIA);
-            
+
             if (!$r_delete['success']) {
                 $response = $r_delete;
             }
         }
-        
+
         if (empty($response)) {
-            $response =  $MC_Likes->deleteAlbum($id_subscriber, $ID_IG_MEDIA, $ID_ALBUM);
+            $response = $MC_Likes->deleteAlbum($id_subscriber, $ID_IG_MEDIA, $ID_ALBUM);
         }
-        
+
         return $response;
     }
-    
+
 }

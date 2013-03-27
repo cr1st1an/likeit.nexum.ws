@@ -26,7 +26,7 @@ class MC_Likes {
 
         if (empty($response)) {
             $key = $this->_name . $id_subscriber . '_' . $id_ig_media;
-
+            
             $cached_data = getCache()->get($key);
             if ($cached_data) {
                 $likes_data = $cached_data;
@@ -37,11 +37,11 @@ class MC_Likes {
                     getCache()->set($key, $likes_data);
                 } else {
                     $response['success'] = false;
-                    $response['message'] = t('error007') . ' $id_stream: ' . $id_stream . ' [MEMCACHED]';
+                    $response['message'] = t('error007') . ' $id_ig_media: ' . $id_ig_media . ' [MEMCACHED]';
                 }
             } else {
                 $response['success'] = false;
-                $response['message'] = t('error007') . ' $id_stream: ' . $id_stream . ' [MEMCACHED]';
+                $response['message'] = t('error007') . ' $id_ig_media: ' . $id_ig_media . ' [MEMCACHED]';
             }
         }
 

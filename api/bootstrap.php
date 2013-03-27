@@ -14,9 +14,15 @@ Epi::init('api', 'cache', 'config', 'database', 'route', 'session', 'template');
 
 getConfig()->load('default.ini', 'secure.ini');
 
-define('INSTAGRAM_CLIENT_ID', '8c8f279095cb4c4a8c384e1cef007a3b');
-define('INSTAGRAM_CLIENT_SECRET', '972bba42303e4143a7dd489e3513da77');
-define('INSTAGRAM_CALLBACK_URL', 'http://login.nexum.ws/instagram/');
+define('INSTAGRAM_CLIENT_ID', getConfig()->get('instagram')->client_id);
+define('INSTAGRAM_CLIENT_SECRET', getConfig()->get('instagram')->client_secret);
+define('INSTAGRAM_CALLBACK_URL', getConfig()->get('instagram')->callback_url);
+
+define('PARSE_APP_ID', getConfig()->get('parse')->app_id);
+define('PARSE_MASTER_KEY', getConfig()->get('parse')->master_key);
+define('PARSE_REST_KEY', getConfig()->get('parse')->rest_key);
+
+define('MANDRILL_API_KEY', getConfig()->get('mandrill')->api_key);
 
 EpiDatabase::employ(
         getConfig()->get('db')->type, getConfig()->get('db')->name, getConfig()->get('db')->host, getConfig()->get('db')->username, getConfig()->get('db')->password

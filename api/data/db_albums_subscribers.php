@@ -36,6 +36,13 @@ class DB_Albums_Subscribers {
                 getDatabase()->execute(
                         'INSERT INTO ' . $this->_name . '(id_album, id_subscriber) VALUES(:id_album, :id_subscriber)', $insert_data
                 );
+            } else {
+                $update_data = array(
+                    'id_album' => $id_album,
+                    'id_subscriber' => $id_subscriber,
+                    'active' => true
+                );
+                getDatabase()->execute('UPDATE ' . $this->_name . ' SET active=:active WHERE id_album=:id_album AND id_subscriber=:id_subscriber', $update_data);
             }
 
             $response['success'] = true;
@@ -59,7 +66,7 @@ class DB_Albums_Subscribers {
                 'id_subscriber' => $id_subscriber
             );
             $albums_subscribers_ids = getDatabase()->all(
-                    'SELECT * FROM ' . $this->_name . ' WHERE id_subscriber=:id_subscriber', $select_data
+                    'SELECT * FROM ' . $this->_name . ' WHERE id_subscriber=:id_subscriber AND active = true', $select_data
             );
 
             $response['success'] = true;
@@ -67,6 +74,36 @@ class DB_Albums_Subscribers {
             $response['albums_subscribers_ids'] = $albums_subscribers_ids;
         }
 
+        return $response;
+    }
+
+    public function delete($ID_ALBUM, $ID_SUBSCRIBER) {
+        $response = array();
+
+        $id_album = (int) $ID_ALBUM;
+        if (empty($response) && empty($id_album)) {
+            $response['success'] = false;
+            $response['message'] = t('error003') . "ID_ALBUM " . t('txt003') . "DB_Albums_Subscribers->delete()";
+        }
+
+        $id_subscriber = (int) $ID_SUBSCRIBER;
+        if (empty($response) && empty($id_subscriber)) {
+            $response['success'] = false;
+            $response['message'] = t('error003') . "ID_SUBSCRIBER " . t('txt003') . "DB_Albums_Subscribers->delete()";
+        }
+
+        if (empty($response)) {
+            $update_data = array(
+                'id_album' => $id_album,
+                'id_subscriber' => $id_subscriber,
+                'active' => false
+            );
+            getDatabase()->execute('UPDATE ' . $this->_name . ' SET active=:active WHERE id_album=:id_album AND id_subscriber=:id_subscriber', $update_data);
+
+            $response['success'] = true;
+            $response['message'] = t('ok037') . $id_album;
+        }
+        
         return $response;
     }
 

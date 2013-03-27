@@ -94,23 +94,33 @@ class DB_Likes {
             $response['success'] = false;
             $response['message'] = t('error003') . "ID_IG_MEDIA " . t('txt003') . "DB_Likes->delete()";
         }
-
-        $id_album = (int) $ID_ALBUM;
-        if (empty($response) && empty($id_album)) {
-            $response['success'] = false;
-            $response['message'] = t('error003') . "ID_ALBUM " . t('txt003') . "DB_Likes->delete()";
-        }
-
+        
         if (empty($response)) {
             $delete_data = array(
                 'id_subscriber' => $id_subscriber,
                 'id_ig_media' => $id_ig_media,
-                'id_album' => $id_album
+                'id_album' => (int) $ID_ALBUM
             );
             getDatabase()->execute('DELETE FROM ' . $this->_name . ' WHERE id_subscriber=:id_subscriber AND id_ig_media=:id_ig_media AND id_album=:id_album', $delete_data);
 
             $response['success'] = true;
             $response['message'] = t('ok032') . $id_ig_media;
+        }
+        
+        return $response;
+    }
+
+    public function selectTrending() {
+        $response = array();
+        
+        if (empty($response)) {
+            $likes_data = getDatabase()->all(
+                    'SELECT * FROM ' . $this->_name . ' WHERE id_album = 0 GROUP BY id_ig_media ORDER BY RAND()'
+            );
+
+            $response['success'] = true;
+            $response['message'] = t('ok033');
+            $response['likes_data'] = $likes_data;
         }
         
         return $response;

@@ -63,4 +63,33 @@ class DB_Albums {
         return $response;
     }
     
+    public function updateTitle($ID_ALBUM, $TITLE){
+        $response = array();
+        
+        $id_album = (int) $ID_ALBUM;
+        if (empty($response) && empty($id_album)) {
+            $response['success'] = false;
+            $response['message'] = t('error003') . "ID_ALBUM " . t('txt003') . "DB_Albums->updateTitle()";
+        }
+        
+        $title = $TITLE;
+        if (empty($response) && empty($title)) {
+            $response['success'] = false;
+            $response['message'] = t('error003') . "EMAIL " . t('txt003') . "DB_Albums->updateTitle()";
+        }
+        
+        if (empty($response)) {
+            $update_data = array(
+                'id_album' => $id_album,
+                'title' => $title
+            );
+            getDatabase()->execute('UPDATE ' . $this->_name . ' SET title=:title WHERE id_album=:id_album', $update_data);
+            
+            $response['success'] = true;
+            $response['message'] = t('ok038') . $id_album;
+        }
+        
+        return $response;
+    }
+    
 }

@@ -39,8 +39,8 @@ class Instagram {
         return json_decode($this->_curl_client->post(self::API_OAUTH_TOKEN_URL, $data), true);
     }
 
-    public function getUser() {
-        
+    public function getUser($ID, $DATA) {
+        return json_decode($this->_curl_client->get(self::API_URL . '/users/'.$ID.'', $DATA), true);
     }
 
     public function getUserFollows() {

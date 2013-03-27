@@ -4,7 +4,7 @@ class MC_IG_Media {
 
     protected $_name = 'MC_IG_Media_';
 
-    public function getMedia($ID_IG_MEDIA, $FETCH_SOURCE, $REQUEST_DATA) {
+    public function getMedia($ID_IG_MEDIA, $FETCH_SOURCE, $REQUEST_DATA = array()) {
         include_once Epi::getPath('lib') . 'instagram.php';
 
         $Instagram = new Instagram();
@@ -31,17 +31,17 @@ class MC_IG_Media {
                     getCache()->set($key, $media_data);
                 } else {
                     $response['success'] = false;
-                    $response['message'] = t('error009') . ' $id_stream: ' . $id_stream . ' [MEMCACHED]';
+                    $response['message'] = t('error009') . ' $id_ig_media: ' . $id_ig_media . ' [MEMCACHED]';
                 }
             } else {
                 $response['success'] = false;
-                $response['message'] = t('error009') . ' $id_stream: ' . $id_stream . ' [MEMCACHED]';
+                $response['message'] = t('error009') . ' $id_ig_media: ' . $id_ig_media . ' [MEMCACHED]';
             }
         }
 
         if (empty($response)) {
             $response['success'] = true;
-            $response['message'] = t('ok023') . ' $id: ' . $id . ' [MEMCACHED]';
+            $response['message'] = t('ok023') . ' $id_ig_media: ' . $id_ig_media . ' [MEMCACHED]';
             $response['media_data'] = $media_data;
         }
 
