@@ -2,20 +2,6 @@
 
 class Route_Streams {
 
-//    public function test() {
-//        include_once Epi::getPath('lib') . 'instagram.php';
-//
-//        $Instagram = new Instagram();
-//
-//        $request_data = array();
-//        $request_data['access_token'] = '806569.8c8f279.1f0c39aafdc14d3b85b5ab8860022294';
-//        $request_data['count'] = 100;
-//        
-//        $response = $Instagram->getUserMediaRecent('3000558', $request_data);
-//        
-//        print_r($response);
-//    }
-
     public function getRoot() {
         include_once Epi::getPath('data') . 'mc_streams.php';
         include_once Epi::getPath('data') . 'db_streams_subscribers.php';
@@ -162,17 +148,20 @@ class Route_Streams {
         $next_max_key = 'next_max_id';
         $next_max_id = null;
         $id_stream = null;
+        $trigger = null;
+        $message = null;
+        $is_public = true;
 
         $response = $Validator->verifySession();
         $access_token = getSession()->get('access_token');
 
         if (empty($response)) {
             $r_getGetParams = $Validator->getGetParams(array('stream', 'identifier'));
-            
+
             if ($r_getGetParams['success']) {
                 $get = $r_getGetParams['get'];
-                
-                if('null' === $get['identifier'])
+
+                if ('null' === $get['identifier'])
                     $get['identifier'] = null;
             } else {
                 $response = $r_getGetParams;
@@ -217,6 +206,8 @@ class Route_Streams {
                 $media_data = $r_getMedia['data'];
                 if (isset($r_getMedia['pagination'][$next_max_key]))
                     $next_max_id = $r_getMedia['pagination'][$next_max_key];
+            } else if ('you cannot view this resource' === $r_getMedia['meta']['error_message']) {
+                $is_public = false;
             } else {
                 $response['success'] = false;
                 $response['message'] = t('error001') . $r_getMedia['meta']['error_message'];
@@ -247,6 +238,7 @@ class Route_Streams {
             $response['stream_data'] = $stream_data;
             $response['next_max_id'] = $next_max_id;
             $response['media_data'] = $DataHandler->mediaFeed($media_data);
+            $response['is_public'] = $is_public;
         }
 
         return $response;

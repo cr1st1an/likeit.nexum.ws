@@ -115,9 +115,11 @@ class DB_Likes {
         
         if (empty($response)) {
             $likes_data = getDatabase()->all(
-                    'SELECT * FROM ' . $this->_name . ' WHERE id_album = 0 GROUP BY id_ig_media ORDER BY RAND()'
+                    'SELECT *, count(*) as votes FROM ' . $this->_name . ' WHERE id_album = 1 GROUP BY id_ig_media ORDER BY votes DESC, created DESC LIMIT 250'
             );
-
+            
+            shuffle($likes_data);
+            
             $response['success'] = true;
             $response['message'] = t('ok033');
             $response['likes_data'] = $likes_data;

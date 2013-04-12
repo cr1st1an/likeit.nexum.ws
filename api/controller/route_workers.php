@@ -6,7 +6,7 @@ class Route_Workers {
         include_once Epi::getPath('data') . 'db_subscribers.php';
         include_once Epi::getPath('lib') . 'mandrill.php';
         include_once Epi::getPath('lib') . 'validator.php';
-        
+
         $DB_Subscribers = new DB_Subscribers();
 
         $Mandrill = new Mandrill();
@@ -34,23 +34,43 @@ class Route_Workers {
                 $response = $r_select;
             }
         }
-        
+
         // VALIDATE IF MAIL IS THERE
         // VALIDATE IF VERIFIED
-        
-        if(empty($response)) {
-            $invite = rand(1000,9999);
+
+        if (empty($response)) {
+            $invite = rand(1000, 9999);
             $r_updateInvite = $DB_Subscribers->updateInvite($subscriber_data['id_subscriber'], md5($invite));
             if (!$r_updateInvite['success']) {
                 $response = $r_updateInvite;
             }
         }
-        
+
         if (empty($response)) {
             $payload = array(
                 'message' => array(
-                    'html' => 'This is your invitation code: '.$invite,
-                    'text' => 'This is your invitation code: '.$invite,
+                    'html' =>
+"Hi!<br/>
+<br/>
+Thank you for buying Like it! Every purchase helps us create a better app, which is our full time obsession right now. Over the course of the next weeks you'll be able to get updates and see great improvements, this is our commitment.<br/>
+<br/>
+Remember to verify your purchase with this confirmation code: $invite <br/>
+<br/>
+Like it!<br/>
+ by Cristian and Roman Castillo<br/>
+<br/>
+[If you want to get in touch please reply to this email, we'd love to hear from you.]",
+                    'text' =>
+"Hi!
+
+Thank you for buying Like it! Every purchase helps us create a better app, which is our full time obsession right now. Over the course of the next weeks you'll be able to get updates and see great improvements, this is our commitment.
+
+Remember to verify your purchase with this confirmation code: $invite 
+
+Like it!
+ by Cristian and Roman Castillo
+
+[If you want to get in touch please reply to this email, we'd love to hear from you.]",
                     'subject' => 'Welcome to Like it!',
                     'from_email' => 'welcome@likeit.co',
                     'from_name' => 'Like it!',
@@ -62,13 +82,13 @@ class Route_Workers {
                 ),
                 'async' => true
             );
-            
+
             $response = $Mandrill->call('/messages/send', $payload);
         }
-        
+
         return $response;
     }
-    
+
     public function getW2() {
         include_once Epi::getPath('data') . 'mc_likes.php';
 

@@ -18,7 +18,7 @@ class DataHandler {
 
         $media_data = array();
         $id_subscriber = getSession()->get('id_subscriber');
-
+        
         foreach ($FEED_DATA as $key => $data) {
             $media_data[$key]['id_ig_media'] = $data['id'];
             $media_data[$key]['caption'] = $data['caption']['text'];
