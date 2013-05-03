@@ -10,7 +10,7 @@ class Validator {
         if (empty($id_session)) {
             $response['success'] = false;
             $response['message'] = t('error006') . $id_session;
-            $response['trigger'] = 'login';
+            $response['trigger'] = 'no_session';
         }
         
         return $response;

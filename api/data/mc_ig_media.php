@@ -47,5 +47,25 @@ class MC_IG_Media {
 
         return $response;
     }
-
+    
+    public function deleteMedia($ID_IG_MEDIA) {
+        $response = array();
+        
+        $id_ig_media = $ID_IG_MEDIA;
+        if (empty($response) && empty($id_ig_media)) {
+            $response['success'] = false;
+            $response['message'] = t('error003') . "ID_IG_MEDIA " . t('txt003') . "MC_IG_Media->deleteMedia()";
+        }
+        
+        if (empty($response)) {
+            $key = $this->_name . $id_ig_media;
+            getCache()->delete($key);
+            
+            $response['success'] = true;
+            $response['message'] = t('ok039') . ' $id_ig_media: ' . $id_ig_media . ' [MEMCACHED]';
+        }
+        
+        return $response;
+    }
+    
 }

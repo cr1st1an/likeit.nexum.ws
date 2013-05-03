@@ -130,14 +130,14 @@ class Route_Subscribers {
 
         if (empty($response) && $post['email'] !== $subscriber_data['email']) {
             $r_updateEmail = $DB_Subscribers->updateEmail($id_subscriber, $post['email']);
-            if (!$r_updateEmail['success']) {
+            if ($r_updateEmail['success']) {
+                getApi()->invoke('/v1/workers/invite_subscriber', EpiRoute::httpGet, array('_GET' => array('id_subscriber' => $id_subscriber)));
+            } else {
                 $response = $r_updateEmail;
             }
         }
 
         if (empty($response)) {
-            getApi()->invoke('/v1/workers/invite_subscriber', EpiRoute::httpGet, array('_GET' => array('id_subscriber' => $id_subscriber)));
-
             $response['success'] = true;
             $response['message'] = t('ok036') . $id_subscriber;
         }

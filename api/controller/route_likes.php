@@ -99,7 +99,6 @@ class Route_Likes {
         include_once Epi::getPath('data') . 'mc_ig_media.php';
         include_once Epi::getPath('data') . 'db_likes.php';
         include_once Epi::getPath('lib') . 'data_handler.php';
-        include_once Epi::getPath('lib') . 'validator.php';
 
         $MC_IG_Media = new MC_IG_Media();
         $DB_Likes = new DB_Likes();

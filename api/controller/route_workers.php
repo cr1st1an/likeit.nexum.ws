@@ -50,27 +50,27 @@ class Route_Workers {
             $payload = array(
                 'message' => array(
                     'html' =>
-"Hi!<br/>
+                    "Hi!<br/>
 <br/>
-Thank you for buying Like it! Every purchase helps us create a better app, which is our full time obsession right now. Over the course of the next weeks you'll be able to get updates and see great improvements, this is our commitment.<br/>
+Thank you for trying Like it! Every download helps us create a better app, which is our full time obsession right now. Over the course of the next weeks you'll be able to get updates and see great improvements, if you send us feedback that is.<br/>
 <br/>
-Remember to verify your purchase with this confirmation code: $invite <br/>
+To get in touch just reply this email, or send us a message through our Facebook page: <a href='http://facebook.com/applikeit'>http://facebook.com/applikeit</a><br/>
 <br/>
 Like it!<br/>
  by Cristian and Roman Castillo<br/>
 <br/>
-[If you want to get in touch please reply to this email, we'd love to hear from you.]",
+P.S. your access code is: $invite",
                     'text' =>
-"Hi!
+                    "Hi!
 
-Thank you for buying Like it! Every purchase helps us create a better app, which is our full time obsession right now. Over the course of the next weeks you'll be able to get updates and see great improvements, this is our commitment.
+Thank you for trying Like it! Every download helps us create a better app, which is our full time obsession right now. Over the course of the next weeks you'll be able to get updates and see great improvements, if you send us feedback that is.
 
-Remember to verify your purchase with this confirmation code: $invite 
+To get in touch just reply this email, or send us a message through our Facebook page: http://facebook.com/applikeit
 
 Like it!
  by Cristian and Roman Castillo
 
-[If you want to get in touch please reply to this email, we'd love to hear from you.]",
+P.S. your access code is: $invite",
                     'subject' => 'Welcome to Like it!',
                     'from_email' => 'welcome@likeit.co',
                     'from_name' => 'Like it!',
@@ -90,6 +90,8 @@ Like it!
     }
 
     public function getW2() {
+        exit();
+        
         include_once Epi::getPath('data') . 'mc_likes.php';
 
         $MC_Likes = new MC_Likes();
@@ -101,6 +103,27 @@ Like it!
         }
 
         return array('OK');
+    }
+
+    public function getW3() {
+        exit();
+        
+        include_once Epi::getPath('data') . 'mc_ig_media.php';
+
+        $MC_IG_Media = new MC_IG_Media();
+
+        $likes_data = getDatabase()->all('SELECT * FROM likes GROUP BY id_ig_media');
+
+        foreach ($likes_data as $like_data) {
+            $r_getMedia = $MC_IG_Media->getMedia($like_data['id_ig_media'], false);
+            if ($r_getMedia['success']) {
+                if (file_get_contents($r_getMedia['media_data']['images']['thumbnail']['url'], 0, NULL, 0, 1)) {
+                    echo "YES \n";
+                } else {
+                    $MC_IG_Media->deleteMedia($like_data['id_ig_media']);
+                }
+            }
+        }
     }
 
 }

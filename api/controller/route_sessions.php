@@ -73,7 +73,8 @@ class Route_Sessions {
             getSession()->set('id_subscriber', $session_data['id_subscriber']);
             getSession()->set('id_ig_user', $session_data['id_ig_user']);
             getSession()->set('access_token', $session_data['access_token']);
-
+            getSession()->set('scl', $subscriber_data['scl']);
+            
             $response['success'] = true;
             $response['message'] = t('ok034') . getSession()->get('id_session');
             $response['id_session'] = $session_data['id_session'];
@@ -85,9 +86,9 @@ class Route_Sessions {
         }
 
         if (!$response['success']) {
-            $response['trigger'] = 'login';
+            $response['trigger'] = 'no_session';
         }
-
+        
         return $response;
     }
 
@@ -179,6 +180,10 @@ class Route_Sessions {
             getSession()->set('id_subscriber', $session_data['id_subscriber']);
             getSession()->set('id_ig_user', $session_data['id_ig_user']);
             getSession()->set('access_token', $session_data['access_token']);
+            if(empty($subscriber_data['scl']))
+                getSession()->set('scl', 0);
+            else
+                getSession()->set('scl', $subscriber_data['scl']);
 
             $response['success'] = true;
             $response['message'] = t('ok001') . getSession()->get('id_session');
@@ -189,7 +194,7 @@ class Route_Sessions {
             else if (!$subscriber_data['verified'])
                 $response['trigger'] = 'no_code';
         }
-
+        
         return $response;
     }
 

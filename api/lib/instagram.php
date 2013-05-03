@@ -143,8 +143,10 @@ class Instagram {
         return json_decode($this->_curl_client->get(self::API_URL . '/locations/search', $DATA), true);
     }
 
-    public function getGeoMediaRecent() {
-        
+    public function getOembed($LINK) {
+        return json_decode($this->_curl_client->get('http://api.instagram.com/oembed?url='.$LINK, array()), true);
     }
-
+    
+    
+    
 }

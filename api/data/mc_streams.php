@@ -15,7 +15,7 @@ class MC_Streams {
         $id_stream = (int) $ID_STREAM;
         if (empty($response) && empty($id_stream)) {
             $response['success'] = false;
-            $response['message'] = t('error003') . "STREAM " . t('txt003') . "MC_Streams->getStream()";
+            $response['message'] = t('error003') . "ID_STREAM " . t('txt003') . "MC_Streams->getStream()";
         }
 
         if (empty($response)) {

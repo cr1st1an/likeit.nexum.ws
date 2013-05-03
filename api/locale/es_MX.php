@@ -43,6 +43,10 @@ $lang = array(
     'ok036' => "Actualizamos al subscriptor.",
     'ok037' => "Desactivamos la relación entre album y subscriptor.",
     'ok038' => "Actualizamos el album.",
+    'ok039' => "Eliminamos el medio.",
+    'ok040' => "Aquí están las selecciones recientes.",
+    'ok041' => "Aquí está el oembed.",
+    'ok042' => "Aquí está el pick.",
     
     'error001' => "Problema con el servidor de Instagram.",
     'error002' => "Problema al guardar subscriptor.",
@@ -59,4 +63,6 @@ $lang = array(
     'error013' => "No encontramos el email.",
     'error014' => "No es necesaria la actualización.",
     'error015' => "El email es incorrecto.",
+    'error016' => "No encontramos el oembed.",
+    'error017' => "No encontramos el pick.",
 );

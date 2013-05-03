@@ -10,7 +10,13 @@ class DataHandler {
 
         return $thumbnail;
     }
-
+    
+    public function picksFeed($PICKS_DATA){
+        uasort($PICKS_DATA, array($this, 'usortPublish'));
+        $picks_data = array_values($PICKS_DATA);
+        return $picks_data;
+    }
+    
     public function mediaFeed($FEED_DATA) {
         include_once Epi::getPath('data') . 'mc_likes.php';
 
@@ -97,5 +103,11 @@ class DataHandler {
 
         return $results_data;
     }
-
+    
+    private function usortPublish($array_a, $array_b) {
+        if ($array_a['publish'] == $array_b['publish']) {
+            return 0;
+        }
+        return ($array_a['publish'] > $array_b['publish']) ? -1 : 1;
+    }
 }

@@ -14,6 +14,8 @@ Epi::init('api', 'cache', 'config', 'database', 'route', 'session', 'template');
 
 getConfig()->load('default.ini', 'secure.ini');
 
+
+define('INSTAGRAM_PHOTO_URL', getConfig()->get('instagram')->photo_url);
 define('INSTAGRAM_CLIENT_ID', getConfig()->get('instagram')->client_id);
 define('INSTAGRAM_CLIENT_SECRET', getConfig()->get('instagram')->client_secret);
 define('INSTAGRAM_CALLBACK_URL', getConfig()->get('instagram')->callback_url);

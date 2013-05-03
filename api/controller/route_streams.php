@@ -289,8 +289,12 @@ class Route_Streams {
             $request_data = array();
             $request_data['access_token'] = $access_token;
 
-            if (isset($get['q']))
+            if (isset($get['q'])){
                 $request_data['q'] = $get['q'];
+                $request_data['q'] = str_replace('@', '', $request_data['q']);
+                $request_data['q'] = str_replace('#', '', $request_data['q']);
+            }
+                
 
             if (isset($get['lat']))
                 $request_data['lat'] = $get['lat'];
@@ -302,6 +306,7 @@ class Route_Streams {
                     $r_getResults = $Instagram->getUsers($request_data);
                     break;
                 case 'tags':
+                    $request_data['q'] = str_replace(' ', '', $request_data['q']);
                     $r_getResults = $Instagram->getTags($request_data);
                     break;
                 case 'locations':

@@ -50,7 +50,10 @@ class DB_Sessions {
         }
 
         $created = date("Y-m-d H:i:s");
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        if(!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        else
+            $ip = $_SERVER['REMOTE_ADDR'];
 
         if (empty($response)) {
             $insert_data = array(
