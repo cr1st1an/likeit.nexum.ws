@@ -18,14 +18,12 @@ class Route_Picks {
         if (empty($response)) {
             $i = 0;
             do {
-                $r_getPick = $MC_Picks->getPick(++$i);
+                $r_getPick = $MC_Picks->getPick(++$i, true, false);
                 if ($r_getPick['success']) {
                     $picks_data[$i] = $r_getPick['pick_data'];
                     $r_getOembed = $MC_IG_Oembed->getOembed(INSTAGRAM_PHOTO_URL . $picks_data[$i]['guid']);
                     if ($r_getOembed['success']) {
                         $picks_data[$i]['oembed'] = $r_getOembed['oembed_data'];
-                        if (empty($picks_data[$i]['img_url']))
-                            $picks_data[$i]['img_url'] = $picks_data[$i]['oembed']['url'];
                     } else {
                         unset($picks_data[$i]);
                     }

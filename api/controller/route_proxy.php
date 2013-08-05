@@ -37,8 +37,6 @@ class Route_Proxy {
                     $r_getPick = $MC_Picks->getPick($r_getID['id_pick']);
                     if($r_getPick['success']){
                         $pick_data = $r_getPick['pick_data'];
-                        if (empty($pick_data['img_url']))
-                            $pick_data['img_url'] = $oembed_data['url'];
                     }
                 }
             } else {
